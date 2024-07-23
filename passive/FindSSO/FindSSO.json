@@ -1,0 +1,449 @@
+{
+  "description": "Highlight SSO Requests  (OAuth, OIDC, SAML)",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 5
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 6
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 4
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 7
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 7
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 8
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 10
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 13
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 24
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 5
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 6
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 8
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 10
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 13
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 8
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 25
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 21
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 21
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 24
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": -80,
+          "y": 320
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": -350,
+          "y": -10
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "set_color",
+        "definition_id": "caido/color-set",
+        "display": {
+          "x": -80,
+          "y": 170
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "color",
+            "value": {
+              "data": "#4a81d9",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Set Color",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_1",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": -170,
+          "y": -10
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql_1.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": -350,
+          "y": -130
+        },
+        "id": 5,
+        "inputs": [
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.query.cont:\"client_id=\" OR req.query.cont:\"response_type=\"",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "OAuth/OIDC Auth Request",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql_1",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": -170,
+          "y": -130
+        },
+        "id": 6,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "(req.query.cont:\"code=\" AND req.query.cont:\"state=\") OR req.path.cont:\"&code=\" OR req.query.like:\"code=%\"",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "OAuth/OIDC Auth Response",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql_2",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 10,
+          "y": -130
+        },
+        "id": 7,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.raw.cont:\"SAMLRequest=\" OR req.raw.cont:\"SAMLResponse=\" ",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "SAML",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_2",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 10,
+          "y": -10
+        },
+        "id": 8,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql_2.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql_3",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 200,
+          "y": -130
+        },
+        "id": 10,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "resp.raw.regex:/\"access_token\"\\s*:\\s*\"([^\"]+)\"/",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "OAuth/OIDC Token Response",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_3",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 200,
+          "y": -10
+        },
+        "id": 13,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql_3.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": -60,
+          "y": -400
+        },
+        "id": 21,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_5",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": -60,
+          "y": -310
+        },
+        "id": 24,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$in_scope.result",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else 5",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "on_intercept_response",
+        "definition_id": "caido/on-intercept-response",
+        "display": {
+          "x": -60,
+          "y": -520
+        },
+        "id": 25,
+        "inputs": [],
+        "name": "On Intercept Response",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "a157fcfb-4920-4e6c-beb0-9751050c49c7",
+  "kind": "passive",
+  "name": "FindSSO"
+}
