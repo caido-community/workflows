@@ -1,0 +1,523 @@
+{
+  "description": "Create Findings based on OAuth/OIDC SSO Requests",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 15
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 16
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 17
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 34
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 35
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 36
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 35
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 37
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 37
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 38
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 35
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 36
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 39
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 40
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 41
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 16
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 34
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 16
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 17
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 38
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 39
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 41
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 15
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 42
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 40
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 890,
+          "y": 270
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql_4",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 660,
+          "y": -150
+        },
+        "id": 15,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "(req.query.cont:\"&code=\" OR req.query.like:\"code=%\") AND req.query.ncont:\"state=\"",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "OAuth Code Flow without \"state\"",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_4",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 660,
+          "y": -10
+        },
+        "id": 16,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql_4.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "create_finding",
+        "definition_id": "caido/finding-create",
+        "display": {
+          "x": 660,
+          "y": 120
+        },
+        "id": 17,
+        "inputs": [
+          {
+            "alias": "reporter",
+            "value": {
+              "data": "EvalSSO",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "title",
+            "value": {
+              "data": "Potential CSRF Detected: OAuth Implicit Grant Used",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "description",
+            "value": {
+              "data": "A possible CSRF was detected: The request looks like an OAuth/OIDC Auth. Reqponse but does not utilize a \"state\".\n\nPlease note that there could be other countermeasures against CSRF such as PKCE in place.\n\nFurther references: https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#section-4.7",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "dedupe_key",
+            "value": {
+              "data": "$matches_httpql_4.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Create Finding",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 890,
+          "y": -150
+        },
+        "id": 34,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.query.cont:\"response_type=token\" OR req.query.cont:\"response_type=code+token\"",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "OAuth Implicit Flow",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 890,
+          "y": -10
+        },
+        "id": 35,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "create_finding_1",
+        "definition_id": "caido/finding-create",
+        "display": {
+          "x": 890,
+          "y": 130
+        },
+        "id": 36,
+        "inputs": [
+          {
+            "alias": "reporter",
+            "value": {
+              "data": "EvalSSO",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "title",
+            "value": {
+              "data": "OAuth Implicit Flow Used",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "description",
+            "value": {
+              "data": "Deprecated OAuth Implicit Grant detected.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#name-implicit-grant",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "dedupe_key",
+            "value": {
+              "data": "$matches_httpql.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Create Finding",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql_1",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 1100,
+          "y": -150
+        },
+        "id": 37,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.raw.cont:\"response_type=password\"",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "OAuth Password Flow",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_1",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 1100,
+          "y": 0
+        },
+        "id": 38,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$matches_httpql_1.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "create_finding_2",
+        "definition_id": "caido/finding-create",
+        "display": {
+          "x": 1100,
+          "y": 130
+        },
+        "id": 39,
+        "inputs": [
+          {
+            "alias": "reporter",
+            "value": {
+              "data": "EvalSSO",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "title",
+            "value": {
+              "data": "OAuth Resource Owner Passwort Credentials Grant Used",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "description",
+            "value": {
+              "data": "The Resource Owner Passwort Credentials Grant is depracted.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#name-resource-owner-password-cre",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "dedupe_key",
+            "value": {
+              "data": "$matches_httpql_1.matches",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Create Finding",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": 890,
+          "y": -390
+        },
+        "id": 40,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "if_else_2",
+        "definition_id": "caido/if-else",
+        "display": {
+          "x": 890,
+          "y": -280
+        },
+        "id": 41,
+        "inputs": [
+          {
+            "alias": "condition",
+            "value": {
+              "data": "$in_scope.result",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "If/Else",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "on_intercept_response",
+        "definition_id": "caido/on-intercept-response",
+        "display": {
+          "x": 890,
+          "y": -520
+        },
+        "id": 42,
+        "inputs": [],
+        "name": "On Intercept Response",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "a157fcfb-4920-4e6c-beb0-9751050c49c7",
+  "kind": "passive",
+  "name": "EvalSSO"
+}
