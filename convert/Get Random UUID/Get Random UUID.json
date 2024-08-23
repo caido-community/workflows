@@ -1,0 +1,92 @@
+{
+  "description": "Workflow for generating a random UUID.",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "convert_start",
+        "definition_id": "caido/convert-start",
+        "display": {
+          "x": 0,
+          "y": -180
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Convert Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "convert_end",
+        "definition_id": "caido/convert-end",
+        "display": {
+          "x": 0,
+          "y": 100
+        },
+        "id": 1,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$javascript.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Convert End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/code-js",
+        "display": {
+          "x": 0,
+          "y": -40
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$convert_start.data",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "/**\n * @param {BytesInput} input\n * @param {SDK} sdk\n * @returns {MaybePromise<Data>}\n */\n\nexport function run(input, sdk) {\n  let uuid = generateUUID();\n  let parsed = sdk.asString(uuid);\n  return parsed;\n}\n\nfunction generateUUID() {\n    let d = new Date().getTime(); \n    let d2 = 0;\n    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n        let r = Math.random() * 16;\n        if(d > 0){\n            r = (d + r)%16 | 0;\n            d = Math.floor(d/16);\n        } else {\n            r = (d2 + r)%16 | 0;\n            d2 = Math.floor(d2/16);\n        }\n        return (c === 'x' ? r : (r&0x3|0x8)).toString(16);\n    });\n}",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "b5718037-aed3-4836-8396-71f31ce0806b",
+  "kind": "convert",
+  "name": "Get Random UUID"
+}
