@@ -1,0 +1,92 @@
+{
+  "description": "",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "convert_start",
+        "definition_id": "caido/convert-start",
+        "display": {
+          "x": -10,
+          "y": -120
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Convert Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "convert_end",
+        "definition_id": "caido/convert-end",
+        "display": {
+          "x": -10,
+          "y": 140
+        },
+        "id": 1,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$javascript.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Convert End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/code-js",
+        "display": {
+          "x": 50,
+          "y": 20
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$convert_start.data",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "export function run(input, sdk) {\n  let xml = sdk.asString(input);\n  \n  // Remove ds:Signature from Response\n  xml = xml.replace(/<ds:Signature\\s+xmlns:ds=\"http:\\/\\/www\\.w3\\.org\\/2000\\/09\\/xmldsig#\">[\\s\\S]*?<\\/ds:Signature>/, '');\n  \n  // Remove ds:Signature from Assertion\n  xml = xml.replace(/<ds:Signature\\s+xmlns:ds=\"http:\\/\\/www\\.w3\\.org\\/2000\\/09\\/xmldsig#\">[\\s\\S]*?<\\/ds:Signature>/, '');\n\n  return xml;\n}",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "4162dba2-a8c4-4074-bde3-9958d4eeec35",
+  "kind": "convert",
+  "name": "Strip SAML Signatures"
+}
