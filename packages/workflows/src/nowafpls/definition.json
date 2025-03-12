@@ -76,7 +76,7 @@
             {
               "alias": "code",
               "value": {
-                "data": "export function run(input, sdk) {\n  let newReq = sdk.asString(input);\n  let paddingAmount = 8000;\n  let index = newReq.indexOf(\"\\r\\n\\r\\n\")+4;\n  if (/content-type: ?application\\/json/i.test(newReq)){\n    index = index+1\n    let newReqBefore = newReq.substring(0, index)\n    let newReqAfter = newReq.substring(index)\n    newReq = newReqBefore + '\"a\":\"'+\"a\".repeat(paddingAmount)+'\",'+newReqAfter  \n  } else if(/content-type: ?application\\/x-www-form-urlencoded/i.test(newReq)){\n    let newReqBefore = newReq.substring(0, index)\n    let newReqAfter = newReq.substring(index)\n    newReq = newReqBefore+\"a=\"+\"a\".repeat(paddingAmount)+\"&\"+newReqAfter\n  } else if(/content-type: ?application\\/xml/i.test(newReq)){\n    let newReqBefore = newReq.substring(0, index)\n    let newReqAfter = newReq.substring(index)\n    newReq = newReqBefore + \"<!--\"+\"a\".repeat(paddingAmount)+\"-->\" + newReqAfter\n  }\n  return newReq ? newReq : \"\\r\\n\\r\\nIncorrect Usage: Press CTRL-Z, then select the whole request and try again...\\r\\n\\r\\n\"\n}",
+                "data": "",
                 "kind": "string"
               }
             }
