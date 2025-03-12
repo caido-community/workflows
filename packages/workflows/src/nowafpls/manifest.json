@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Rhynorater"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/nowafpls/README.md",
+  "description": "Tries to bypass WAF by adding a lot of padding to the request",
+  "id": "nowafpls",
+  "name": "nowafpls - 8KB",
+  "version": "0.0.1"
+}

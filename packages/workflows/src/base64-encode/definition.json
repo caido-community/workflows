@@ -1,0 +1,99 @@
+{
+  "description": "Base64 encode a string",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "start",
+        "definition_id": "caido/convert-start",
+        "display": {
+          "x": 0,
+          "y": -120
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Start",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "end",
+        "definition_id": "caido/convert-end",
+        "display": {
+          "x": 0,
+          "y": 230
+        },
+        "id": 1,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$base64_encode.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "End",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "base64_encode",
+        "definition_id": "caido/base64-encode",
+        "display": {
+          "x": 0,
+          "y": 60
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "format",
+            "value": {
+              "data": "STANDARD",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "pad",
+            "value": {
+              "data": true,
+              "kind": "bool"
+            }
+          },
+          {
+            "alias": "data",
+            "value": {
+              "data": "$start.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Base64 Encode",
+        "version": "^0.1.0"
+      }
+    ]
+  },
+  "id": "9c81c48e-4970-4bfc-a551-fb82a6644f39",
+  "kind": "convert",
+  "name": "Base64 Encode"
+}

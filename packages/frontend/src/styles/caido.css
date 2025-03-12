@@ -1,0 +1,72 @@
+:root {
+    /* Generated from https://uicolors.app/ */
+    /* If you need additional variants, use https://uicolors.app/ to generate them */
+    /* These variables are meant to be customized by Caido users */
+
+    /* Primary with #a0213e as a base color */
+    --c-primary-100: 357deg 78% 95%;
+    --c-primary-200: 354deg 76% 90%;
+    --c-primary-300: 353deg 76% 82%;
+    --c-primary-400: 352deg 75% 71%;
+    --c-primary-500: 350deg 71% 60%;
+    --c-primary-600: 348deg 61% 50%;
+    --c-primary-700: 346deg 66% 38%;
+    --c-primary-800: 345deg 64% 35%;
+    --c-primary-900: 342deg 60% 30%;
+
+    /* Secondary with #daa04a as a base color */
+    --c-secondary-100: 41deg 65% 89%;
+    --c-secondary-200: 40deg 66% 77%;
+    --c-secondary-300: 38deg 66% 65%;
+    --c-secondary-400: 36deg 66% 57%;
+    --c-secondary-500: 30deg 63% 50%;
+    --c-secondary-600: 25deg 65% 44%;
+    --c-secondary-700: 19deg 62% 37%;
+    --c-secondary-800: 15deg 56% 31%;
+    --c-secondary-900: 14deg 53% 26%;
+
+    /* Danger with #f58e97 as a base color */
+    --c-danger-100: 0deg 85% 95%;
+    --c-danger-200: 356deg 84% 90%;
+    --c-danger-300: 356deg 85% 82%;
+    --c-danger-400: 355deg 84% 76%;
+    --c-danger-500: 353deg 79% 60%;
+    --c-danger-600: 350deg 69% 50%;
+    --c-danger-700: 349deg 73% 41%;
+    --c-danger-800: 347deg 71% 35%;
+    --c-danger-900: 345deg 66% 30%;
+
+    /* Info with #88a2aa as a base color */
+    --c-info-100: 193deg 18% 90%;
+    --c-info-200: 194deg 18% 82%;
+    --c-info-300: 193deg 18% 69%;
+    --c-info-400: 194deg 17% 60%;
+    --c-info-500: 195deg 18% 43%;
+    --c-info-600: 198deg 18% 36%; 
+    --c-info-700: 201deg 16% 31%;
+    --c-info-800: 200deg 13% 27%;
+    --c-info-900: hsl(204, 12%, 24%);
+
+    /* Success with #579c57 as a base color */
+    --c-success-100: 120deg 32% 93%;
+    --c-success-200: 118deg 32% 85%;
+    --c-success-300: 120deg 31% 73%;
+    --c-success-400: 120deg 28% 58%;
+    --c-success-500: 120deg 28% 48%;
+    --c-success-600: 120deg 31% 36%;
+    --c-success-700: 120deg 29% 29%;
+    --c-success-800: 122deg 25% 24%;
+    --c-success-900: 122deg 24% 20%;
+
+    /* Surface */
+    /* This is not generated from https://uicolors.app/ */
+    --c-surface-0: 24deg 12% 92%;
+    --c-surface-200: 0deg 0% 78%;
+    --c-surface-300: 0deg 0% 67%;
+    --c-surface-400: 0deg 0% 57%;
+    --c-surface-500: 0deg 0% 47%;
+    --c-surface-600: 0deg 0% 38%;
+    --c-surface-700: 224deg 9% 31%;
+    --c-surface-800: 224deg 10% 21%;
+    --c-surface-900: 225deg 10% 16%;
+}

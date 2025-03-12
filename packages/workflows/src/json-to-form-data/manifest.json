@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "RyotaK"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/json-to-form-data/README.md",
+  "description": "Convert JSON to Form Data",
+  "id": "json-to-form-data",
+  "name": "JSON To Form Data",
+  "version": "0.0.1"
+}

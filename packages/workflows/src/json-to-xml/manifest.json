@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "RyotaK"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/json-to-xml/README.md",
+  "description": "Convert JSON to XML",
+  "id": "json-to-xml",
+  "name": "JSON to XML",
+  "version": "0.0.1"
+}

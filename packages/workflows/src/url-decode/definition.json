@@ -1,0 +1,85 @@
+{
+  "edition": 2,
+  "id": "76b028de-c86c-4b49-9d2b-c523c12bf552",
+  "name": "URL Decode",
+  "description": "URL decode a string",
+  "kind": "convert",
+  "graph": {
+    "nodes": [
+      {
+        "id": 0,
+        "alias": "start",
+        "name": "Start",
+        "definition_id": "caido/convert-start",
+        "version": "^0.1.0",
+        "inputs": [],
+        "display": {
+          "x": 0,
+          "y": -90
+        }
+      },
+      {
+        "id": 1,
+        "alias": "end",
+        "name": "End",
+        "definition_id": "caido/convert-end",
+        "version": "^0.1.0",
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "kind": "ref",
+              "data": "$url_decode.data"
+            }
+          }
+        ],
+        "display": {
+          "x": 0,
+          "y": 230
+        }
+      },
+      {
+        "id": 2,
+        "alias": "url_decode",
+        "name": "URL Decode",
+        "definition_id": "caido/url-decode",
+        "version": "^0.1.0",
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "kind": "ref",
+              "data": "$start.data"
+            }
+          }
+        ],
+        "display": {
+          "x": 0,
+          "y": 70
+        }
+      }
+    ],
+    "edges": [
+      {
+        "source": {
+          "node_id": 0,
+          "exec_alias": "exec"
+        },
+        "target": {
+          "node_id": 2,
+          "exec_alias": "exec"
+        }
+      },
+      {
+        "source": {
+          "node_id": 2,
+          "exec_alias": "exec"
+        },
+        "target": {
+          "node_id": 1,
+          "exec_alias": "exec"
+        }
+      }
+    ]
+  }
+}

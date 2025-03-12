@@ -1,0 +1,11 @@
+{
+  "author": {
+    "name": "Caido Labs Inc.",
+    "email": "dev@caido.io"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/url-decode/README.md",
+  "description": "Decode a URL",
+  "id": "url-decode",
+  "name": "URL Decode",
+  "version": "0.0.1"
+}

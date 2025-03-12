@@ -16,12 +16,50 @@
   <hr />
 </div>
 
-# 🔗 Workflows
+# Workflows Store
+Browse and install various workflows from our collection of pre-built workflows with a single click
 
-## Submitting a workflow
+## Installation
 
-1. Copy the "Workflow Template" folder into the `convert`, `passive` or `active` folder, depending on the type of workflow you want to submit.
-2. Rename "Workflow Template" to the name of your workflow
-3. Update the README.md inside your folder with the correct author/description
+1. Open Caido
+2. Navigate to the plugins page
+3. Go to community store
+4. Install workflows store
 
-See https://github.com/caido/workflows/tree/main/convert for an example of the folder structure to follow
+## Contributing
+
+To contribute a new workflow to the store, follow these steps:
+
+1. Fork the repository
+2. Create a new branch for your workflow
+3. Download your workflow in Caido
+4. Create a new directory in `packages/workflows/src` with your workflow name (directory name must be the same as workflow ID)
+5. Inside your workflow directory, add the following files:
+
+   - `definition.json` - Your workflow file from Caido (rename the downloaded file)
+   - `manifest.json` - Workflow metadata file (see example below)
+   - `README.md` - Documentation for your workflow
+
+   Example `manifest.json`:
+   ```json
+   {
+     "author": {
+       "name": "Your Name",
+       "email": "your.email@example.com"
+     },
+     "url": "https://github.com/caido-community/workflows/packages/workflows/your-workflow/README.md",
+     "description": "Brief description of your workflow",
+     "id": "your-workflow-id",
+     "name": "Your Workflow Name",
+     "version": "0.0.1"
+   }
+   ```
+
+   Your `README.md` should include:
+   - Author information
+   - Brief description of the workflow
+   - Any additional usage instructions
+
+6. Commit your changes
+7. Push to your fork
+8. Open a pull request with your changes
