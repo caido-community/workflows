@@ -8,6 +8,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { builtinModules } from "module";
+import { z } from "zod";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +74,20 @@ const readWorkflowManifest = (workflowDir) => {
     }
 }
 
+const authorSchema = z.object({
+    name: z.string().min(1, "Author name is required"),
+    email: z.string().optional(),
+});
+
+const manifestSchema = z.object({
+    id: z.string().min(1, "ID is required"),
+    name: z.string().min(1, "Name is required"),
+    description: z.string().min(1, "Description is required"),
+    url: z.string().min(1, "URL is required"),
+    author: authorSchema,
+    version: z.string().min(1, "Version is required"),
+});
+
 /**
  * Validates manifest
  * @param {string} workflowDir - The path to the workflow directory
@@ -80,30 +95,25 @@ const readWorkflowManifest = (workflowDir) => {
  * @param {Object} manifest - The workflow manifest
  */
 const validateManifest = (workflowDir, definition, manifest) => {
-    // Required fields
-    if (!manifest.name) {
-        throw new Error(`[!] Missing required field 'name' in manifest for ${workflowDir}`);
-    }
-    if (!manifest.description) {
-        throw new Error(`[!] Missing required field 'description' in manifest for ${workflowDir}`);
-    }
-    if (!manifest.url) {
-        throw new Error(`[!] Missing required field 'url' in manifest for ${workflowDir}`);
-    }
+    try {
+        // Validate manifest against schema
+        manifestSchema.parse(manifest);
 
-    // Author validation
-    if (!manifest.author || !manifest.author.name) {
-        throw new Error(`[!] Missing required author.name in manifest for ${workflowDir}`);
-    }
+        // Validate ID matches directory name
+        if (workflowDir !== manifest.id) {
+            throw new Error(`Workflow ID mismatch in ${workflowDir}: workflowDir (${workflowDir}) != manifest.id (${manifest.id})`);
+        }
 
-    // Validate ID matches directory name
-    if (workflowDir !== manifest.id) {
-        throw new Error(`[!] Workflow ID mismatch in ${workflowDir}: workflowDir (${workflowDir}) != manifest.id (${manifest.id})`);
-    }
-
-    // Validate name matches definition
-    if (manifest.name !== definition.name) {
-        throw new Error(`[!] Workflow name mismatch in ${workflowDir}: manifest.name (${manifest.name}) != definition.name (${definition.name})`);
+        // Validate name matches definition
+        if (manifest.name !== definition.name) {
+            throw new Error(`Workflow name mismatch in ${workflowDir}: manifest.name (${manifest.name}) != definition.name (${definition.name})`);
+        }
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            const issues = error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`).join(', ');
+            throw new Error(`[!] Invalid manifest for ${workflowDir}: ${issues}`);
+        }
+        throw error;
     }
 }
 
