@@ -25,12 +25,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-full">
+  <div class="h-full overflow-auto">
     <Card
       class="h-full"
       :pt="{
         body: {
-          className: 'p-0 h-full',
+          className: 'p-0 h-full overflow-auto',
         },
       }"
     >

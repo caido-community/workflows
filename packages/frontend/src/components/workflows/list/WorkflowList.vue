@@ -22,7 +22,6 @@ const expandedRows = ref({});
     expandedRowIcon="fas fa-chevron-down"
     collapsedRowIcon="fas fa-chevron-right"
     scrollable
-    scrollHeight="calc(100vh - 170px)"
     class="h-full"
   >
     <Column :expander="true" style="width: 2%" />
