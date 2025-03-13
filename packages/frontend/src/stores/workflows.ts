@@ -1,4 +1,3 @@
-import { useWorkflow } from "@/composables/useWorkflow";
 import { useSDK } from "@/plugins/sdk";
 import { defineStore } from "pinia";
 import type { Workflow } from "shared";
@@ -10,40 +9,99 @@ export interface WorkflowState {
   searchQuery: string;
 }
 
+interface WorkflowResult {
+  error: boolean;
+  kind: "success" | "error";
+  message: string;
+}
+
 export const useWorkflowStore = defineStore("workflows", () => {
   const sdk = useSDK();
-  const { installedWorkflows } = useWorkflow();
 
   // State
-  const state = ref<WorkflowState>({
-    workflows: [],
-    installedWorkflowsNames: [],
-    searchQuery: "",
-  });
+  const workflows = ref<Workflow[]>([]);
+  const installedWorkflowsNames = ref<string[]>([]);
+  const searchQuery = ref<string>("");
 
   // Getters
   const filteredWorkflows = computed(() =>
-    state.value.workflows.filter((workflow) =>
-      workflow?.name.toLowerCase().includes(state.value.searchQuery.toLowerCase()) ||
-      workflow?.id.toLowerCase().includes(state.value.searchQuery.toLowerCase())
+    workflows.value.filter(
+      (workflow) =>
+        workflow?.name
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase()) ||
+        workflow?.id
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase())
     )
   );
 
   // Actions
   const loadWorkflows = async () => {
-    state.value.workflows = (await sdk.backend.listWorkflows()) || [];
+    workflows.value = (await sdk.backend.listWorkflows()) || [];
   };
 
   const setSearchQuery = (query: string) => {
-    state.value.searchQuery = query;
+    searchQuery.value = query;
   };
 
   const refetchInstalledWorkflows = async () => {
-    state.value.installedWorkflowsNames = await installedWorkflows();
+    installedWorkflowsNames.value = await installedWorkflows();
   };
 
   const isWorkflowInstalled = (workflowName: string): boolean => {
-    return state.value.installedWorkflowsNames.includes(workflowName);
+    return installedWorkflowsNames.value.includes(workflowName);
+  };
+
+  const installWorkflow = async (
+    workflowID: string
+  ): Promise<WorkflowResult> => {
+    try {
+      const definition = await sdk.backend.workflowDefinition(workflowID);
+      const { createWorkflow } = await sdk.graphql.createWorkflow({
+        input: { definition, global: false },
+      });
+
+      if (createWorkflow.workflow) {
+        return {
+          error: false,
+          kind: "success",
+          message: "Workflow installed successfully",
+        };
+      }
+
+      return {
+        error: true,
+        kind: "error",
+        message: createWorkflow.error
+          ? JSON.stringify(createWorkflow.error)
+          : "Unknown error occurred",
+      };
+    } catch (error) {
+      console.error("Error installing workflow:", error);
+      return {
+        error: true,
+        kind: "error",
+        message: "Failed to install workflow",
+      };
+    }
+  };
+
+  const installAllWorkflows = async (): Promise<number> => {
+    let installedCount = 0;
+    const workflowsList = filteredWorkflows.value;
+    for (const workflow of workflowsList) {
+      if (!installedWorkflowsNames.value.includes(workflow.name)) {
+        await installWorkflow(workflow.id);
+        installedCount++;
+      }
+    }
+    return installedCount;
+  };
+
+  const installedWorkflows = async (): Promise<string[]> => {
+    const workflowsList = sdk.workflows.getWorkflows();
+    return workflowsList.map((workflow) => workflow.name);
   };
 
   // Initialize
@@ -52,10 +110,10 @@ export const useWorkflowStore = defineStore("workflows", () => {
 
   return {
     // State
-    workflows: computed(() => state.value.workflows),
-    installedWorkflowsNames: computed(() => state.value.installedWorkflowsNames),
+    workflows: computed(() => workflows.value),
+    installedWorkflowsNames: computed(() => installedWorkflowsNames.value),
     searchQuery: computed({
-      get: () => state.value.searchQuery,
+      get: () => searchQuery.value,
       set: setSearchQuery,
     }),
 
@@ -66,5 +124,7 @@ export const useWorkflowStore = defineStore("workflows", () => {
     setSearchQuery,
     refetchInstalledWorkflows,
     isWorkflowInstalled,
+    installWorkflow,
+    installAllWorkflows,
   };
 });
