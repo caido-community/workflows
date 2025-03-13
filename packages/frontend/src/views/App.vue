@@ -8,19 +8,18 @@ import { useSDK } from "@/plugins/sdk";
 
 const store = useWorkflowStore();
 const sdk = useSDK();
-
 onMounted(() => {
-  let stopped = false;
+  const deletedWorkflows = sdk.workflows.onDeletedWorkflow(() => {
+    store.refetchInstalledWorkflows();
+  })
 
-  (async () => {
-    for await (const _ of sdk.graphql.deletedWorkflow()) {
-      if (stopped) break;
-      store.refetchInstalledWorkflows();
-    }
-  })();
+  const createdWorkflows = sdk.workflows.onCreatedWorkflow(() => {
+    store.refetchInstalledWorkflows();
+  })
 
   onUnmounted(() => {
-    stopped = true;
+    deletedWorkflows.stop();
+    createdWorkflows.stop();
   });
 });
 </script>
