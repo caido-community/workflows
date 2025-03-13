@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "RyotaK"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/html-decode-everything/README.md",
+  "description": "Decode all HTML entities in a string",
+  "id": "html-decode-everything",
+  "name": "HTML Decode Everything",
+  "version": "0.0.1"
+}

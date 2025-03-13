@@ -1,0 +1,7 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "types": ["@caido/sdk-workflow"]
+    },
+    "include": ["./src/**/*.ts"]
+  }

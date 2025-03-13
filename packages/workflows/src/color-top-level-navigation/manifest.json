@@ -1,0 +1,10 @@
+{
+    "author": {
+        "name": "Rhynorater"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/color-top-level-navigation/README.md",
+    "description": "Color the top level navigation item based on the current page",
+    "id": "color-top-level-navigation",
+    "name": "Color Top-Level & IFrame Navigations",
+    "version": "0.0.1"
+}

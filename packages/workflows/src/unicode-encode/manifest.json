@@ -1,0 +1,10 @@
+{
+    "author": {
+      "name": "hahwul"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/unicode-encode/README.md",
+    "description": "Workflow to unicode encode text.",
+    "id": "unicode-encode",
+    "name": "Unicode Encode",
+    "version": "0.0.1"
+  }

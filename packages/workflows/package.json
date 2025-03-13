@@ -1,0 +1,15 @@
+{
+  "name": "workflows",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "node ./scripts/build.mjs"
+  },
+  "dependencies": {
+    "qs": "6.13.0",
+    "xml-js": "1.6.11"
+  },
+  "devDependencies": {
+    "@types/qs": "6.9.17",
+    "@caido/sdk-workflow": "0.44.1"
+  }
+}

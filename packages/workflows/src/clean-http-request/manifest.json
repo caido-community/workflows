@@ -1,0 +1,11 @@
+{
+  "author": {
+    "name": "bebiks",
+    "email": "bebiks.priv@gmail.com"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/clean-http-request/README.md",
+  "description": "Clean HTTP request by removing unnecessary headers and parameters",
+  "id": "clean-http-request",
+  "name": "Clean HTTP Request",
+  "version": "0.0.1"
+}

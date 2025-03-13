@@ -1,0 +1,11 @@
+{
+  "author": {
+    "name": "Caido Labs Inc.",
+    "email": "dev@caido.io"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/base64-decode/README.md",
+  "description": "Base64 decode a string",
+  "id": "base64-decode",
+  "name": "Base64 Decode",
+  "version": "0.0.1"
+}

@@ -1,7 +1,0 @@
-{
-  "name": "script_alias",
-  "scripts": {
-    "build": "echo \"Hello World\""
-  },
-  "dependencies": {}
-}

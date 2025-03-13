@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@caido/primevue": "0.1.2",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "primevue": "4.1.0",
+    "shared": "workspace:*",
+    "vue": "3.4.37"
+  },
+  "devDependencies": {
+    "@caido/sdk-backend": "0.46.0",
+    "@caido/sdk-frontend": "0.46.1-beta.7",
+    "@codemirror/view": "6.28.1",
+    "backend": "workspace:*",
+    "shared": "workspace:*",
+    "vue-tsc": "2.0.29"
+  }
+}

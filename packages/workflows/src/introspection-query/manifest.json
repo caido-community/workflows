@@ -1,0 +1,10 @@
+{
+    "author": {
+      "name": "Vasily Kaiser"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/introspection-query/README.md",
+    "description": "Useful to ask a GraphQL schema for information about what queries it supports, if enabled.",
+    "id": "introspection-query",
+    "name": "Introspection Query",
+    "version": "0.0.1"
+  }
