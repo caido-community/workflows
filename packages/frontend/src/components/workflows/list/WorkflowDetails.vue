@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { Workflow } from 'shared';
 
-interface Props {
+defineProps<{
   workflow: Workflow;
-}
-
-defineProps<Props>();
+}>();
 </script>
 
 <template>

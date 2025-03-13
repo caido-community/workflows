@@ -4,13 +4,11 @@ import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import { useWorkflowStore } from "@/stores/workflows";
 import { useSDK } from "@/plugins/sdk";
-import { useWorkflow } from "@/composables/useWorkflow";
 import { ref, computed, onMounted } from "vue";
 import InputIcon from "primevue/inputicon";
 
 const sdk = useSDK();
 const store = useWorkflowStore();
-const { installAllWorkflows } = useWorkflow();
 
 const isInstalling = ref(false);
 const isPluginOutdated = ref(false);
@@ -24,12 +22,11 @@ const notInstalledWorkflows = computed(() => {
 const handleInstallAll = async () => {
   isInstalling.value = true;
   try {
-    await installAllWorkflows();
+    const installedCount = await store.installAllWorkflows();
     sdk.window.showToast(
-      `All ${notInstalledWorkflows.value.length} workflows installed successfully`,
+      `All ${installedCount} workflows installed successfully`,
       { variant: "success" }
     );
-    await store.refetchInstalledWorkflows();
   } finally {
     isInstalling.value = false;
   }
@@ -65,10 +62,10 @@ onMounted(() => {
       :label="`Install all (${notInstalledWorkflows.length})`"
       icon="fas fa-download"
       @click="handleInstallAll"
-      :disabled="isInstalling || notInstalledWorkflows.length === 0"
+      :loading="isInstalling"
+      :disabled="notInstalledWorkflows.length === 0"
       :class="{
-        'p-button-secondary':
-          isInstalling || notInstalledWorkflows.length === 0,
+        'p-button-secondary': notInstalledWorkflows.length === 0,
       }"
     ></Button>
   </div>

@@ -6,11 +6,9 @@ import type { Workflow } from 'shared';
 import WorkflowActions from '@/components/workflows/actions/WorkflowActions.vue';
 import WorkflowDetails from '@/components/workflows/list/WorkflowDetails.vue';
 
-interface Props {
+defineProps<{
   workflows: Workflow[];
-}
-
-defineProps<Props>();
+}>();
 
 const expandedRows = ref({});
 </script>
@@ -24,7 +22,7 @@ const expandedRows = ref({});
     expandedRowIcon="fas fa-chevron-down"
     collapsedRowIcon="fas fa-chevron-right"
     scrollable
-    scrollHeight="calc(100vh - 181px)"
+    scrollHeight="calc(100vh - 170px)"
     class="h-full"
   >
     <Column :expander="true" style="width: 2%" />
