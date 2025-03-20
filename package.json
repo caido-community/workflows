@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Collection of useful Caido workflows",
   "author": "Caido Labs Inc. <dev@caido.io>",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
