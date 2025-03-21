@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "SiddharthBharadwaj"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/copy-as-python/README.md",
+  "description": "Workflow to generate python3 requests code from raw http requests",
+  "id": "copy-as-python",
+  "name": "Copy As Python Requests",
+  "version": "0.0.1"
+}
