@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Lauritz"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/src/evalsso/README.md",
+  "description": "Create Findings based on OAuth/OIDC SSO Requests",
+  "id": "evalsso",
+  "name": "EvalSSO",
+  "version": "0.0.1"
+}

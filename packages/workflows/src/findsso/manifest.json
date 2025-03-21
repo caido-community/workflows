@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Lauritz"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/src/findsso/README.md",
+  "description": "Highlight SSO Requests (OAuth, OIDC, SAML)",
+  "id": "findsso",
+  "name": "FindSSO",
+  "version": "0.0.1"
+}
