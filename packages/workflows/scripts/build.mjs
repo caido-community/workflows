@@ -164,7 +164,7 @@ for (const workflowDir of workflowDirs) {
     // Validate manifest
     validateManifest(workflowDir, definition, manifest);
 
-    const jsNodes = definition.graph.nodes.filter((node) => node.definition_id === "caido/code-js");
+    const jsNodes = definition.graph.nodes.filter((node) => node.definition_id === "caido/code-js" || node.definition_id === "caido/http-code-js");
     for (const jsNode of jsNodes) {
         console.log(`[*]    Processing "${jsNode.alias}" node`);
         const alias = jsNode.alias;
