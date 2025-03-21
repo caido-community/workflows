@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "isacaya"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/src/samesite-finder/README.md",
+  "description": "Extracts the names of issued cookies and their SameSite attributes to help identify entry points for CSRF vulnerabilities.",
+  "id": "samesite-finder",
+  "name": "SameSiteFinder",
+  "version": "0.0.1"
+}
