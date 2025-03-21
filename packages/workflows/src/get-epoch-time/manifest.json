@@ -1,0 +1,10 @@
+{
+    "author": {
+      "name": "hahwul"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/get-epoch-time/README.md",
+    "description": "Workflow to get the current time as epoch time. (timestamp)",
+    "id": "get-epoch-time",
+    "name": "Get Epoch Time",
+    "version": "0.0.1"
+  }
