@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "deathflash & OsmSec"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/secret-sniffer/README.md",
+  "description": "Detect Secrets and API Key leaks in HTTP responses",
+  "id": "secret-sniffer",
+  "name": "SecretSniffer",
+  "version": "0.0.1"
+}

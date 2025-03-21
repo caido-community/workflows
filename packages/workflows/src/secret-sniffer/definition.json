@@ -1,0 +1,131 @@
+{
+  "description": "Sniffs Secrets",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 4
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 10,
+          "y": 270
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "on_intercept_response",
+        "definition_id": "caido/on-intercept-response",
+        "display": {
+          "x": 0,
+          "y": -60
+        },
+        "id": 2,
+        "inputs": [],
+        "name": "On Intercept Response",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": 0,
+          "y": 40
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": -160,
+          "y": 150
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "code",
+            "value": {
+              "data": "",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "d0bfdc00-dbfb-4a36-8e64-199541892206",
+  "kind": "passive",
+  "name": "SecretSniffer"
+}
