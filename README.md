@@ -1,15 +1,11 @@
 <div align="center">
-  <img width="1000" alt="image" src="https://user-images.githubusercontent.com/6225588/211916659-567751d1-0225-402b-9141-4145c18b0834.png">
+  <img width="1000" alt="image" src="https://github.com/caido-community/.github/blob/main/content/banner.png?raw=true">
 
   <br />
   <br />
-  <a href="https://caido.io/">Website</a>
+  <a href="https://github.com/caido-community" target="_blank">Github</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://dashboard.caido.io/">Dashboard</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://links.caido.io/roadmap">Roadmap</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://github.com/caido/caido/tree/main/brand">Branding</a>
+  <a href="https://developer.caido.io/" target="_blank">Documentation</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://links.caido.io/www-discord" target="_blank">Discord</a>
   <br />
