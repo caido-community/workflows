@@ -1,0 +1,183 @@
+{
+
+  "description": "Serializes JSON to MessagePack data",
+
+  "edition": 2,
+
+  "graph": {
+
+    "edges": [
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 0
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        }
+
+      },
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 1
+
+        }
+
+      }
+
+    ],
+
+    "nodes": [
+
+      {
+
+        "alias": "convert_start",
+
+        "definition_id": "caido/convert-start",
+
+        "display": {
+
+          "x": 0,
+
+          "y": 0
+
+        },
+
+        "id": 0,
+
+        "inputs": [],
+
+        "name": "Convert Start",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "convert_end",
+
+        "definition_id": "caido/convert-end",
+
+        "display": {
+
+          "x": -20,
+
+          "y": 200
+
+        },
+
+        "id": 1,
+
+        "inputs": [
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$javascript.data",
+
+              "kind": "ref"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Convert End",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "javascript",
+
+        "definition_id": "caido/code-js",
+
+        "display": {
+
+          "x": -10,
+
+          "y": 100
+
+        },
+
+        "id": 2,
+
+        "inputs": [
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$convert_start.data",
+
+              "kind": "ref"
+
+            }
+
+          },
+
+          {
+
+            "alias": "code",
+
+            "value": {
+
+              "data": "export function run(input, sdk) {\n  let bytes = [];\n  \n  function writeUInt8(value) {\n    bytes.push(value & 0xff);\n  }\n\n  function writeUInt16(value) {\n    bytes.push((value >>> 8) & 0xff);\n    bytes.push(value & 0xff);\n  }\n\n  function writeUInt32(value) {\n    bytes.push((value >>> 24) & 0xff);\n    bytes.push((value >>> 16) & 0xff);\n    bytes.push((value >>> 8) & 0xff);\n    bytes.push(value & 0xff);\n  }\n\n  function writeString(str) {\n    const utf8Array = Array.from(str).map(char => char.charCodeAt(0));\n    \n    if (utf8Array.length <= 31) {\n      // fixstr\n      writeUInt8(0xa0 | utf8Array.length);\n    } else if (utf8Array.length <= 255) {\n      // str 8\n      writeUInt8(0xd9);\n      writeUInt8(utf8Array.length);\n    } else if (utf8Array.length <= 65535) {\n      // str 16\n      writeUInt8(0xda);\n      writeUInt16(utf8Array.length);\n    } else {\n      // str 32\n      writeUInt8(0xdb);\n      writeUInt32(utf8Array.length);\n    }\n    \n    bytes.push(...utf8Array);\n  }\n\n  function writeNumber(num) {\n    if (Number.isInteger(num)) {\n      if (num >= 0) {\n        if (num < 128) {\n          // positive fixint\n          writeUInt8(num);\n        } else if (num <= 255) {\n          // uint 8\n          writeUInt8(0xcc);\n          writeUInt8(num);\n        } else if (num <= 65535) {\n          // uint 16\n          writeUInt8(0xcd);\n          writeUInt16(num);\n        } else if (num <= 4294967295) {\n          // uint 32\n          writeUInt8(0xce);\n          writeUInt32(num);\n        }\n      } else {\n        if (num >= -32) {\n          // negative fixint\n          writeUInt8(0xe0 | (num + 32));\n        } else if (num >= -128) {\n          // int 8\n          writeUInt8(0xd0);\n          writeUInt8(num & 0xff);\n        } else if (num >= -32768) {\n          // int 16\n          writeUInt8(0xd1);\n          writeUInt16(num & 0xffff);\n        } else if (num >= -2147483648) {\n          // int 32\n          writeUInt8(0xd2);\n          writeUInt32(num & 0xffffffff);\n        }\n      }\n    } else {\n      // For now, treat all non-integers as 32-bit floats\n      // Could be extended to support doubles if needed\n      writeUInt8(0xca);\n      const buffer = new ArrayBuffer(4);\n      new Float32Array(buffer)[0] = num;\n      const view = new Uint8Array(buffer);\n      bytes.push(...Array.from(view));\n    }\n  }\n\n  function writeArray(arr) {\n    if (arr.length <= 15) {\n      // fixarray\n      writeUInt8(0x90 | arr.length);\n    } else if (arr.length <= 65535) {\n      // array 16\n      writeUInt8(0xdc);\n      writeUInt16(arr.length);\n    } else {\n      // array 32\n      writeUInt8(0xdd);\n      writeUInt32(arr.length);\n    }\n    \n    for (const item of arr) {\n      encode(item);\n    }\n  }\n\n  function writeMap(obj) {\n    const keys = Object.keys(obj);\n    \n    if (keys.length <= 15) {\n      // fixmap\n      writeUInt8(0x80 | keys.length);\n    } else if (keys.length <= 65535) {\n      // map 16\n      writeUInt8(0xde);\n      writeUInt16(keys.length);\n    } else {\n      // map 32\n      writeUInt8(0xdf);\n      writeUInt32(keys.length);\n    }\n    \n    for (const key of keys) {\n      encode(key);\n      encode(obj[key]);\n    }\n  }\n\n  function encode(value) {\n    switch (typeof value) {\n      case 'string':\n        writeString(value);\n        break;\n        \n      case 'number':\n        writeNumber(value);\n        break;\n        \n      case 'boolean':\n        writeUInt8(value ? 0xc3 : 0xc2);\n        break;\n        \n      case 'object':\n        if (value === null) {\n          writeUInt8(0xc0);\n        } else if (Array.isArray(value)) {\n          writeArray(value);\n        } else {\n          writeMap(value);\n        }\n        break;\n        \n      default:\n        throw new Error(`Unsupported type: ${typeof value}`);\n    }\n  }\n\n  try {\n    // Parse input JSON if it's a string\n    const jsonData = typeof input === 'string' ? \n      JSON.parse(input) : \n      JSON.parse(sdk.asString(input));\n\n    // Encode to MessagePack\n    encode(jsonData);\n\n    // Return the MessagePack bytes\n    return new Uint8Array(bytes);\n  } catch (error) {\n    return `Error encoding MessagePack: ${error.message}`;\n  }\n}\n",
+
+              "kind": "string"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Javascript",
+
+        "version": "0.1.0"
+
+      }
+
+    ]
+
+  },
+
+  "id": "serialize-JSON-to-msgpack-workflow",
+
+  "kind": "convert",
+
+  "name": "JSON to MsgPack"
+
+}
