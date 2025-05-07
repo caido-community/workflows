@@ -1,0 +1,12 @@
+{
+    "author": {
+      "name": "0daystolive",
+      "email": "dont@me.bro"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/owasptop25/README.md",
+    "description": "Request contains one of OWASP Top 25 Vulnerable Parameters",
+    "id": "owasptop25",
+    "name": "OWASP Top 25 Vulnerable Parameters",
+    "version": "0.0.1"
+  }
+  
