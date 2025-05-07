@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "0daystolive"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/url-in-param/README.md",
+    "description": "Detects requests that have URLs in parameter values",
+    "id": "url-in-param",
+    "name": "URL in param",
+    "version": "0.0.1"
+  }
+  
