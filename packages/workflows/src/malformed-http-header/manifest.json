@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "0daystolive"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/malformed-http-header/README.md",
+    "description": "Detects when HTTP response contains a malformed header",
+    "id": "malformed-http-header",
+    "name": "Malformed HTTP Header",
+    "version": "0.0.1"
+  }
+  
