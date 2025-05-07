@@ -1,0 +1,12 @@
+{
+    "author": {
+      "name": "0daystolive",
+      "email": "dont@me.bro"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/detect-viewstate/README.md",
+    "description": "Detects if website uses ASPX Viewstate",
+    "id": "detect-viewstate",
+    "name": "Detect ASPX Viewstate",
+    "version": "0.0.1"
+  }
+  
