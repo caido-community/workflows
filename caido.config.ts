@@ -1,8 +1,8 @@
 import { defineConfig } from '@caido-community/dev';
+import tailwindCaido from "@caido/tailwindcss";
 import vue from '@vitejs/plugin-vue';
 import tailwindcss from "tailwindcss";
 import tailwindPrimeui from "tailwindcss-primeui";
-import tailwindCaido from "@caido/tailwindcss";
 // @ts-expect-error
 import path from "path";
 import prefixwrap from "postcss-prefixwrap";
@@ -12,7 +12,7 @@ export default defineConfig({
   id,
   name: "Workflows Store",
   description: "Collection of useful Caido workflows",
-  version: "1.0.0",
+  version: "1.0.1",
   author: {
     name: "Caido Labs Inc.",
     email: "dev@caido.io",
