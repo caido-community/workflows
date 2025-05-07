@@ -1,0 +1,12 @@
+{
+    "author": {
+      "name": "0daystolive",
+      "email": "dont@me.bro"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/redirect-to-param/README.md",
+    "description": "Detects HTTP Responses Redirecting to GET Parameter Value",
+    "id": "redirect-to-param",
+    "name": "Redirect to Parameter Value",
+    "version": "0.0.1"
+  }
+  
