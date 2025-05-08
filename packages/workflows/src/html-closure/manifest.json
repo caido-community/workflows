@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "syrull"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/src/html-closure/README.md",
+    "description": "Detects responses with more than one HTML closing tag",
+    "id": "html-closure",
+    "name": "HTML Closure",
+    "version": "0.0.1"
+  }
+  
