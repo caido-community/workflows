@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "syrull"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/large-redirect-response/README.md",
+    "description": "Detects redirect pages with large body",
+    "id": "large-redirect-response",
+    "name": "Large Redirect Response",
+    "version": "0.0.1"
+  }
+  
