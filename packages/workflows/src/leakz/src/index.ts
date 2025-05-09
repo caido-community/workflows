@@ -110,7 +110,7 @@ export async function run(
       }
 
       for (const result of results) {
-        let finding: any = {
+        let finding: FindingSpec = {
           title: "Found",
           reporter: "Leakz",
           request: request,
@@ -124,11 +124,13 @@ export async function run(
             matches: result.matches,
             confidence: result.confidence,
           });
+          finding.dedupeKey = `${kind}-${result.name}-${request.getUrl()}`;
         } else {
           finding.title += ` "${result}" sensitive ${kind}`;
           finding.description =
             "Request and/or response may contains sensitive" +
             ` "${result}" field.`;
+          finding.dedupeKey = `${kind}-${result}-${request.getUrl()}`;
         }
 
         await sdk.findings.create(finding);
