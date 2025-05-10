@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "0daystolive",
+      "email": "dont@me.bro"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/cookie-reflection/README.md",
+    "description": "Flags requests that contain text matching a cookie value",
+    "id": "cookie-reflection",
+    "name": "Cookie Reflection",
+    "version": "0.0.1"
+  }
