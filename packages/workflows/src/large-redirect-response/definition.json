@@ -1,0 +1,121 @@
+{
+  "description": "This will flag redirect responses with a body over 1000 bytes - this can indicate sites that forgot to terminate script execution when the user fails authentication, typically leading to information disclosure.",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 5
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 4
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 90,
+          "y": 140
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": 90,
+          "y": 60
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "code",
+            "value": {
+              "data": "",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$on_intercept_response.response",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Large Redirect Response",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": 100,
+          "y": -20
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "on_intercept_response",
+        "definition_id": "caido/on-intercept-response",
+        "display": {
+          "x": 100,
+          "y": -120
+        },
+        "id": 5,
+        "inputs": [],
+        "name": "On Intercept Response",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "31fe6f8e-bc36-4e52-a213-be7c6e4c1a63",
+  "kind": "passive",
+  "name": "Large Redirect Response"
+}
