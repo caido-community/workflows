@@ -1,6 +1,6 @@
-import { defineConfig } from '@caido-community/dev';
+import { defineConfig } from "@caido-community/dev";
 import tailwindCaido from "@caido/tailwindcss";
-import vue from '@vitejs/plugin-vue';
+import vue from "@vitejs/plugin-vue";
 import tailwindcss from "tailwindcss";
 import tailwindPrimeui from "tailwindcss-primeui";
 // @ts-expect-error
@@ -12,7 +12,7 @@ export default defineConfig({
   id,
   name: "Workflows Store",
   description: "Collection of useful Caido workflows",
-  version: "1.0.1",
+  version: "1.0.2",
   author: {
     name: "Caido Labs Inc.",
     email: "dev@caido.io",
@@ -23,7 +23,7 @@ export default defineConfig({
       kind: "backend",
       id: "backend",
       root: "packages/backend",
-      assets: ["dist-workflows/**"]
+      assets: ["dist-workflows/**"],
     },
     {
       kind: "frontend",
@@ -63,10 +63,7 @@ export default defineConfig({
                   "./node_modules/@caido/primevue/dist/primevue.mjs",
                 ],
                 darkMode: ["selector", '[data-mode="dark"]'],
-                plugins: [
-                  tailwindPrimeui,
-                  tailwindCaido,
-                ],
+                plugins: [tailwindPrimeui, tailwindCaido],
               }),
             ],
           },
