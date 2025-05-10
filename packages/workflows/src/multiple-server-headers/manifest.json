@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "0daystolive"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/multiple-server-headers/README.md",
+  "description": "Detects if server returns different server header at different paths",
+  "id": "multiple-server-headers",
+  "name": "Multiple Server Headers",
+  "version": "0.0.1"
+}

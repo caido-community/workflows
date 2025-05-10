@@ -212,5 +212,5 @@
   },
   "id": "d5d46446-fd7c-4014-ae4b-6ff2d1f705d9",
   "kind": "passive",
-  "name": "Detect Viewstate"
+  "name": "Detect ASPX Viewstate"
 }

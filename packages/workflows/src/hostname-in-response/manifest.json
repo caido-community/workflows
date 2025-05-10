@@ -1,10 +1,10 @@
 {
-    "author": {
-      "name": "0daystolive"
-    },
-    "url": "https://github.com/caido-community/workflows/packages/workflows/hostname-in-response/README.md",
-    "description": "Finds responses which contain the hostname",
-    "id": "hostname-in-response",
-    "name": "Hostname in response",
-    "version": "0.0.1"
-  }
+  "author": {
+    "name": "0daystolive"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/hostname-in-response/README.md",
+  "description": "Finds responses which contain the hostname",
+  "id": "hostname-in-response",
+  "name": "Hostname in Response",
+  "version": "0.0.1"
+}

@@ -1,11 +1,10 @@
 {
-    "author": {
-      "name": "syrull"
-    },
-    "url": "https://github.com/caido-community/workflows/packages/workflows/json-with-wrong-content-type/README.md",
-    "description": "Detects JSON responses with wrong content type",
-    "id": "json-with-wrong-content-type",
-    "name": "JSON with wrong content type",
-    "version": "0.0.1"
-  }
-  
+  "author": {
+    "name": "syrull"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/json-with-wrong-content-type/README.md",
+  "description": "Detects JSON responses with wrong content type",
+  "id": "json-with-wrong-content-type",
+  "name": "JSON Response With Wrong Content-Type",
+  "version": "0.0.1"
+}
