@@ -1,0 +1,91 @@
+{
+  "description": "This workflow tries to send the specifed request with the common HTTP methods and returns the response and content length for each one",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "active_start",
+        "definition_id": "caido/active-start",
+        "display": {
+          "x": -150,
+          "y": -90
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Active Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "active_end",
+        "definition_id": "caido/active-end",
+        "display": {
+          "x": -180,
+          "y": 230
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Active End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": -310,
+          "y": 20
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$active_start.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "/**\n * @param {HttpInput} input\n * @param {SDK} sdk\n * @returns {MaybePromise<Data | undefined>}\n */\nexport async function run({ request, response }, sdk) {\n  if (request) {\n    let findingDes = \"\"\n    const methods = [\"GET\", \"POST\", \"PUT\", \"PATCH\", \"DELETE\"]\n    const spec = request.toSpec();\n    if (spec.getMethod() != \"GET\"){\n      spec.setBody(\"\", {updateContentLength: true})\n    }\n    \n    for(let i=0; i < methods.length; i++){\n      spec.setMethod(methods[i])\n      let res = await sdk.requests.send(spec)\n      findingDes = findingDes + `METHOD: ${methods[i]}\\nStatus Code: ${res.response.getCode()}\\nContent-Length: ${res.response.getBody().toText().length}\\n\\n`\n    }\n    let finding = {title: `Allowed Methods For: https://${spec.getHost() + spec.getPath()}`, description: findingDes, reporter: \"Allowed Methods\", request: request}\n    sdk.findings.create(finding)\n    }\n  }\n",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "eaeafd26-403a-4104-b486-2e2afd1e71f0",
+  "kind": "active",
+  "name": "Get allowed methods"
+}
