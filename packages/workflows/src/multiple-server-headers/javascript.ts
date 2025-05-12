@@ -29,15 +29,25 @@ export async function run({ request, response }, sdk) {
     
     for(var server of serverheaders){
       if(server != seenServerValue){
-        let description = `Webserver ${host} returned a new server header: ${server}`;
-        sdk.console.log(description);
+        // Create finding for new server header
         await sdk.findings.create({
-          title: "ServerMulti",
-          description: description,
+          title: `New Server Header: ${server}`,
+          description: `Webserver ${host} returned a new server header: ${server}.`,
           request: request,
           reporter: "ServerMulti",
-          dedupeKey: description
+          dedupeKey: `server_multi_${host}_${server}`
         });
+
+        // Create finding for old server header now that we have multiple
+        if (seenServerValue != "undefined") {
+          await sdk.findings.create({
+            title: `New Server Header: ${seenServerValue}`,
+            description: `Webserver ${host} returned a new server header: ${seenServerValue}.`,
+            request: request,
+            reporter: "ServerMulti",
+            dedupeKey: `server_multi_${host}_${seenServerValue}`
+          });
+        }
       }
     }
   }
