@@ -35,13 +35,12 @@ export async function run({ request, response }, sdk) {
     if (request) {
       // query params
       const query_parts = request.getQuery().split('&');
-      for (let i = 0; i < query_parts.length; i++) {
-        const query_param = query_parts[i].split('=')[0];
+      for (const query_part of query_parts) {
+        const query_param = query_part.split('=')[0];
         if(param_names.has(query_param)){
-          const requestUrl = request.getUrl();
           const description = `The request to ${request.getHost()}${request.getPath()} has the query param ${query_param} which is in OWASP's top 25 vulnerable paramters`;
           await sdk.findings.create({
-            title: "Request with OWASP top 25 vuln parameter",
+            title: `OWASP top 25 vuln query parameter: ${query_param}`,
             description: description,
             request: request,
             reporter: "OWASPTop25VulnerableParameters",
@@ -53,23 +52,21 @@ export async function run({ request, response }, sdk) {
       const body_params = [];
       try {
         const body = request.getBody().toJson();
-        for (var key in body) {
+        for (const key in body) {
           body_params.push(key);
         }
       } catch {
         const body = request.getBody().toText();
         const body_parts = body.split('&');
-        for (let i = 0; i < body_parts.length; i++) {
-          body_params.push(body_parts[i].split('=')[0]);
+        for (const body_part of body_parts) {
+          body_params.push(body_part.split('=')[0]);
         }
       }
-      for (let i = 0; i < body_params.length; i++) {
-        const body_param = body_params[i];
+      for (const body_param of body_params) {
         if(param_names.has(body_param)){
-          const requestUrl = request.getUrl();
           const description = `The request to ${request.getHost()}${request.getPath()} has the body param ${body_param} which is in OWASP's top 25 vulnerable paramters`;
           await sdk.findings.create({
-            title: "Request with OWASP top 25 vuln parameter",
+            title: `OWASP top 25 vuln body parameter: ${body_param}`,
             description: description,
             request: request,
             reporter: "OWASPTop25VulnerableParameters",
