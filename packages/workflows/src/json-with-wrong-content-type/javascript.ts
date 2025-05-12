@@ -9,7 +9,8 @@ export async function run({ request, response }, sdk) {
         let contentTypeHeader = response.getHeader('Content-Type');
 
         if (body.startsWith('{') || body.startsWith('[')) {
-            if (!contentTypeHeader[0].startsWith('application/json')) {
+            // Regex to ignore application/json application/manifest+json 
+            if (!contentTypeHeader[0].match(/^application\/(\w*\+)?json/)) {
                 let description = `The content of response from ${request.getHost()}${request.getPath()} is probably JSON but the content type is not application/json`;
                 await sdk.findings.create({
                 title: "JSON Response Without JSON Content-Type",
