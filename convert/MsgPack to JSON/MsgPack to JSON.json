@@ -1,0 +1,183 @@
+{
+
+  "description": "Deserializes MessagePack data to JSON with support for extended types",
+
+  "edition": 2,
+
+  "graph": {
+
+    "edges": [
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 0
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        }
+
+      },
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 1
+
+        }
+
+      }
+
+    ],
+
+    "nodes": [
+
+      {
+
+        "alias": "convert_start",
+
+        "definition_id": "caido/convert-start",
+
+        "display": {
+
+          "x": 0,
+
+          "y": 0
+
+        },
+
+        "id": 0,
+
+        "inputs": [],
+
+        "name": "Convert Start",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "convert_end",
+
+        "definition_id": "caido/convert-end",
+
+        "display": {
+
+          "x": -20,
+
+          "y": 200
+
+        },
+
+        "id": 1,
+
+        "inputs": [
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$javascript.data",
+
+              "kind": "ref"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Convert End",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "javascript",
+
+        "definition_id": "caido/code-js",
+
+        "display": {
+
+          "x": -10,
+
+          "y": 100
+
+        },
+
+        "id": 2,
+
+        "inputs": [
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$convert_start.data",
+
+              "kind": "ref"
+
+            }
+
+          },
+
+          {
+
+            "alias": "code",
+
+            "value": {
+
+              "data": "export function run(input, sdk) {\n  const data = new Uint8Array(input);\n  let pos = 0;\n\n  function readUInt8() {\n    return data[pos++];\n  }\n\n  function readUInt16() {\n    return (data[pos++] << 8) | data[pos++];\n  }\n\n  function readUInt32() {\n    return (data[pos++] << 24) | (data[pos++] << 16) | \n           (data[pos++] << 8) | data[pos++];\n  }\n\n  function readInt8() {\n    const value = readUInt8();\n    return value & 0x80 ? value - 0x100 : value;\n  }\n\n  function readInt16() {\n    const value = readUInt16();\n    return value & 0x8000 ? value - 0x10000 : value;\n  }\n\n  function readInt32() {\n    const value = readUInt32();\n    return value >>> 0;\n  }\n\n  function readStr(len) {\n    const str = String.fromCharCode.apply(null, data.slice(pos, pos + len));\n    pos += len;\n    return str;\n  }\n\n  function readBin(len) {\n    const bytes = data.slice(pos, pos + len);\n    pos += len;\n    return Array.from(bytes);\n  }\n\n  function readMap(len) {\n    const result = {};\n    for (let i = 0; i < len; i++) {\n      const key = decode();\n      result[key] = decode();\n    }\n    return result;\n  }\n\n  function readArray(len) {\n    const result = new Array(len);\n    for (let i = 0; i < len; i++) {\n      result[i] = decode();\n    }\n    return result;\n  }\n\n  function decode() {\n    const byte = readUInt8();\n    \n    // positive fixint (0xxxxxxx)\n    if ((byte & 0x80) === 0) {\n      return byte;\n    }\n    \n    // fixmap (1000xxxx)\n    if ((byte & 0xf0) === 0x80) {\n      return readMap(byte & 0x0f);\n    }\n    \n    // fixarray (1001xxxx)\n    if ((byte & 0xf0) === 0x90) {\n      return readArray(byte & 0x0f);\n    }\n    \n    // fixstr (101xxxxx)\n    if ((byte & 0xe0) === 0xa0) {\n      return readStr(byte & 0x1f);\n    }\n    \n    // negative fixint (111xxxxx)\n    if ((byte & 0xe0) === 0xe0) {\n      return byte - 0x100;\n    }\n\n    switch (byte) {\n      case 0xc0: return null;\n      case 0xc2: return false;\n      case 0xc3: return true;\n      \n      case 0xcc: return readUInt8();  // uint 8\n      case 0xcd: return readUInt16(); // uint 16\n      case 0xce: return readUInt32(); // uint 32\n      \n      case 0xd0: return readInt8();   // int 8\n      case 0xd1: return readInt16();  // int 16\n      case 0xd2: return readInt32();  // int 32\n      \n      case 0xd9: return readStr(readUInt8());   // str 8\n      case 0xda: return readStr(readUInt16());  // str 16\n      case 0xdb: return readStr(readUInt32());  // str 32\n      \n      case 0xc4: return readBin(readUInt8());   // bin 8\n      case 0xc5: return readBin(readUInt16());  // bin 16\n      case 0xc6: return readBin(readUInt32());  // bin 32\n      \n      case 0xdc: return readArray(readUInt16()); // array 16\n      case 0xdd: return readArray(readUInt32()); // array 32\n      \n      case 0xde: return readMap(readUInt16());   // map 16\n      case 0xdf: return readMap(readUInt32());   // map 32\n    }\n\n    throw new Error(`Unknown type byte: 0x${byte.toString(16)} at position ${pos-1}`);\n  }\n\n  try {\n    const result = decode();\n    return JSON.stringify(result, null, 2);\n  } catch (error) {\n    return JSON.stringify({\n      error: error.message,\n      position: pos,\n      bytesNearError: Array.from(data.slice(Math.max(0, pos - 8), pos + 8)).map(b => '0x' + b.toString(16)),\n      totalLength: data.length\n    }, null, 2);\n  }\n}\n",
+
+              "kind": "string"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Javascript",
+
+        "version": "0.1.0"
+
+      }
+
+    ]
+
+  },
+
+  "id": "msgpack-deserialize-json-workflow",
+
+  "kind": "convert",
+
+  "name": "MsgPack to JSON"
+
+}
