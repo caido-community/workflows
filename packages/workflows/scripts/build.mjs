@@ -9,11 +9,50 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 import { builtinModules } from "module";
 import { z } from "zod";
+import { minify } from "terser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, "..");
 const distDir = path.join(rootDir, "..", "..", "dist-workflows");
+
+/**
+ * Plugin to apply terser during bundle generation.
+ * Vite doesn't minify ES module libs.
+ */
+function terserPlugin() {
+  return {
+    name: 'terser',
+    async renderChunk(code, chunk) {
+      // Only JS
+      if (!chunk.fileName.endsWith('.mjs') && !chunk.fileName.endsWith('.js')) {
+        return null;
+      }
+
+      const result = await minify(code, {
+        compress: {
+          defaults: false,
+          module: true,
+          hoist_props: true,
+          unused: true,
+          booleans_as_integers: true,
+        },
+        mangle: {
+          toplevel: false,
+          properties: {
+            // Short attribute names for internal props
+            regex: '^\\$.+\\$$|^[A-Z][a-zA-Z]+$',
+          },
+        },
+        format: {
+          comments: true,
+        },
+      });
+
+      return result.code || null;
+    },
+  };
+}
 
 /**
  * Builds a file using vitejs build API
@@ -25,6 +64,7 @@ const buildFile = async (entrypoint, workflowDir) => {
     const outDir = path.join(distDir, path.basename(workflowDir));
 
     await build({
+        plugins: [terserPlugin()],
         build: {
             lib: {
                 entry: entrypoint,
