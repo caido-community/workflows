@@ -1,3 +1,7 @@
+# AI Mentor (GroqCloud)
+
+Author: Vasily Kaiser
+
 ## Workflow Description
 
 This workflow enhances your security testing in Caido by leveraging AI to analyze HTTP requests for potential vulnerabilities. It sends the raw HTTP request to an AI model via the GroqCloud API, which then performs a thorough security analysis.
