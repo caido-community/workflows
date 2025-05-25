@@ -48,14 +48,12 @@ Structure your response with headings or bullet points for clarity. Here’s the
 
   // Send the request and handle potential network errors
   try {
-    sdk.console.log("Before sending request");
     const sentRequest = await sdk.requests.send(spec);
     
     if (!sentRequest.response) {
       sdk.console.error("No response received from API");
       return "No response received";
     }
-    sdk.console.log("Request sent");
     const statusCode = sentRequest.response.getCode();
     sdk.console.log(`Received response with status code ${statusCode}`);
 
