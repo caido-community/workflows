@@ -11,7 +11,7 @@ export default defineConfig({
   id,
   name: "Workflows Store",
   description: "Collection of useful Caido workflows",
-  version: "1.0.2",
+  version: "1.1.0",
   author: {
     name: "Caido Labs Inc.",
     email: "dev@caido.io",
