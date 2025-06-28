@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
-    "build": "pnpm -r build && caido-dev build"
+    "build": "pnpm -r build && caido-dev build",
+    "build:workflows": "pnpm --filter workflows run build",
+    "lint": "eslint --fix packages/{backend,frontend}/src"
   },
   "devDependencies": {
     "@caido-community/dev": "^0.1.3",
@@ -22,6 +24,8 @@
     "vite": "5.2.7"
   },
   "dependencies": {
+    "@caido/eslint-config": "^0.6.0",
+    "eslint": "^9.30.0",
     "pinia": "^3.0.1",
     "zod": "^3.24.2"
   }

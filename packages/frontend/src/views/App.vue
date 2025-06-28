@@ -1,21 +1,25 @@
 <script setup lang="ts">
 import Card from "primevue/card";
+import { onMounted, onUnmounted } from "vue";
+
 import WorkflowHeader from "@/components/workflows/header/WorkflowHeader.vue";
 import WorkflowList from "@/components/workflows/list/WorkflowList.vue";
-import { useWorkflowStore } from "@/stores/workflows";
-import { onMounted, onUnmounted } from "vue";
 import { useSDK } from "@/plugins/sdk";
+import { useWorkflowStore } from "@/stores/workflows";
 
 const store = useWorkflowStore();
 const sdk = useSDK();
+
 onMounted(() => {
+  store.initialize();
+
   const deletedWorkflows = sdk.workflows.onDeletedWorkflow(() => {
     store.refetchInstalledWorkflows();
-  })
+  });
 
   const createdWorkflows = sdk.workflows.onCreatedWorkflow(() => {
     store.refetchInstalledWorkflows();
-  })
+  });
 
   onUnmounted(() => {
     deletedWorkflows.stop();

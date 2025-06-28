@@ -1,37 +1,57 @@
-import { Workflow } from "shared";
 import * as fs from "fs";
-import { SDK } from "caido:plugin";
 import path from "path";
 
+import { type SDK } from "caido:plugin";
+import { type Workflow } from "shared";
+
+type DefinitionData = {
+  name?: string;
+  description?: string;
+  version?: string;
+  kind?: string;
+};
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function getString(
+  obj: Record<string, unknown>,
+  key: string,
+): string | undefined {
+  const value = obj[key];
+  return typeof value === "string" ? value : undefined;
+}
+
+function parseDefinition(content: string): DefinitionData {
+  try {
+    const parsed = JSON.parse(content) as unknown;
+    if (!isObject(parsed)) return {};
+
+    return {
+      name: getString(parsed, "name"),
+      description: getString(parsed, "description"),
+      version: getString(parsed, "version"),
+      kind: getString(parsed, "kind")
+    };
+  } catch {
+    return {};
+  }
+}
+
 export class WorkflowStore {
-  private static _instance?: WorkflowStore;
   private workflows: Workflow[];
-  private sdk?: SDK;
+  private sdk: SDK;
 
-  private constructor() {
+  constructor(sdk: SDK) {
     this.workflows = [];
-  }
-
-  static getInstance(): WorkflowStore {
-    if (!WorkflowStore._instance) {
-      WorkflowStore._instance = new WorkflowStore();
-    }
-    return WorkflowStore._instance;
-  }
-
-  setSdk(sdk: SDK): void {
     this.sdk = sdk;
   }
 
   loadWorkflows(): void {
-    if (!this.sdk) {
-      throw new Error("SDK not initialized");
-    }
-
     this.workflows = [];
-    const sdk = this.sdk;
-    const assetsPath = sdk.meta.assetsPath();
-    sdk.console.log(`Loading workflows from assets path: ${assetsPath}`);
+    const assetsPath = this.sdk.meta.assetsPath();
+    this.sdk.console.log(`Loading workflows from assets path: ${assetsPath}`);
 
     try {
       const dirs = fs.readdirSync(assetsPath);
@@ -48,47 +68,43 @@ export class WorkflowStore {
             const definitionContent = fs.readFileSync(definitionPath, "utf-8");
             const manifestContent = fs.readFileSync(manifestPath, "utf-8");
 
-            const definition = JSON.parse(definitionContent);
-            const manifest = JSON.parse(manifestContent);
+            const definition = parseDefinition(definitionContent);
+            const manifest = JSON.parse(manifestContent) as Workflow;
 
             const workflow: Workflow = {
-              id: manifest.id || dir,
-              name: manifest.name || definition.name || dir,
-              description: manifest.description || definition.description || "",
-              version: manifest.version || definition.version || "1.0.0",
-              kind: definition.kind || "unknown",
-              author: manifest.author ||
-                definition.author || {
-                  name: "unknown",
-                  email: "unknown",
-                },
-              url: manifest.url || definition.url || "",
+              id: manifest.id ?? dir,
+              name: manifest.name ?? definition.name ?? dir,
+              description: manifest.description ?? definition.description ?? "",
+              version: manifest.version ?? definition.version ?? "1.0.0",
+              kind: definition.kind ?? "unknown",
+              author: manifest.author,
+              url: manifest.url ?? "",
             };
 
             this.workflows.push(workflow);
-            sdk.console.log(`Added workflow: ${workflow.name}`);
+            this.sdk.console.log(`Added workflow: ${workflow.name}`);
           }
         } catch (error) {
-          sdk.console.error(`Error reading workflow files from ${dir}`);
-          sdk.console.log(
+          this.sdk.console.error(`Error reading workflow files from ${dir}`);
+          this.sdk.console.log(
             `Error details: ${
               error instanceof Error ? error.message : String(error)
-            }`
+            }`,
           );
         }
       }
     } catch (error) {
-      sdk.console.error(
-        `Error reading directories from assets path: ${assetsPath}`
+      this.sdk.console.error(
+        `Error reading directories from assets path: ${assetsPath}`,
       );
-      sdk.console.log(
+      this.sdk.console.log(
         `Error details: ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`,
       );
     }
 
-    sdk.console.log(`Loaded ${this.workflows.length} workflows`);
+    this.sdk.console.log(`Loaded ${this.workflows.length} workflows`);
   }
 
   getWorkflows(): Workflow[] {
@@ -99,17 +115,12 @@ export class WorkflowStore {
     return this.workflows.some((workflow) => workflow.id === workflowId);
   }
 
-  getWorkflowDefinition(workflowId: string): any | null {
-    if (!this.sdk) {
-      throw new Error("SDK not initialized");
-    }
-
+  getWorkflowDefinition(workflowId: string): unknown {
     if (!this.exists(workflowId)) {
-      throw new Error("Workflow not found");
+      throw new Error(`Workflow not found: ${workflowId}`);
     }
 
-    const sdk = this.sdk;
-    const assetsPath = sdk.meta.assetsPath();
+    const assetsPath = this.sdk.meta.assetsPath();
     const workflowPath = path.join(assetsPath, workflowId, "definition.json");
 
     try {
@@ -117,15 +128,15 @@ export class WorkflowStore {
         const fileContent = fs.readFileSync(workflowPath);
         return JSON.parse(fileContent.toString());
       } catch (statError) {
-        sdk.console.error(`Workflow package not found: ${workflowPath}`);
+        this.sdk.console.error(`Workflow package not found: ${workflowPath}`);
         return null;
       }
     } catch (error) {
-      sdk.console.error(`Error loading workflow package: ${workflowPath}`);
-      sdk.console.log(
+      this.sdk.console.error(`Error loading workflow package: ${workflowPath}`);
+      this.sdk.console.log(
         `Error details: ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`,
       );
       return null;
     }

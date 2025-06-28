@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Button from "primevue/button";
-import type { Workflow } from 'shared';
-import { useWorkflowStore } from "@/stores/workflows";
-import { useSDK } from "@/plugins/sdk";
+import type { Workflow } from "shared";
 import { computed } from "vue";
+
+import { useSDK } from "@/plugins/sdk";
+import { useWorkflowStore } from "@/stores/workflows";
 
 const props = defineProps<{
   workflow: Workflow;
@@ -26,16 +27,16 @@ const handleInstall = async () => {
 };
 
 const isInstalled = computed(() => {
-  return store.isWorkflowInstalled(props.workflow.name)
+  return store.isWorkflowInstalled(props.workflow.name);
 });
 </script>
 
 <template>
   <Button
     label="Install"
-    @click="handleInstall"
     size="small"
     :disabled="isInstalled"
     :class="{ 'p-button-outlined': isInstalled }"
+    @click="handleInstall"
   />
 </template>

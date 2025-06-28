@@ -1,5 +1,4 @@
-import { HttpInput, SDK } from "caido:workflow";
-import type { Data } from "caido:workflow";
+import { type Data, type HttpInput, type SDK } from "caido:workflow";
 
 /**
  * @param {HttpInput} input
@@ -8,7 +7,7 @@ import type { Data } from "caido:workflow";
  */
 export async function run(
   { request, response }: HttpInput,
-  sdk: SDK
+  sdk: SDK,
 ): Promise<Data | undefined> {
   if (!response) {
     return undefined;
@@ -48,7 +47,7 @@ export async function run(
 
       // Generate finding description
       const findingDescription = `Sniffed ${title}:\n\n${uniqueMatches.join(
-        "\n"
+        "\n",
       )}`;
 
       // Store finding in findings object

@@ -1,34 +1,38 @@
 import type { DefineAPI, SDK } from "caido:plugin";
-import { Workflow } from "shared";
+import { ok, type Result, type Workflow } from "shared";
+
 import { WorkflowStore } from "./store/workflows";
 
-const listWorkflows = (sdk: SDK): Workflow[] => {
-  const workflowStore = WorkflowStore.getInstance();
-  return workflowStore.getWorkflows();
-}
+const createListWorkflows =
+  (workflowStore: WorkflowStore) => (): Result<Workflow[]> => {
+    return ok(workflowStore.getWorkflows());
+  };
 
-export const workflowDefinition = (sdk: SDK, workflowID: string): any | null => {
-  const workflowStore = WorkflowStore.getInstance();
-  return workflowStore.getWorkflowDefinition(workflowID);
-}
+const createWorkflowDefinition =
+  (workflowStore: WorkflowStore) =>
+  (_: SDK, workflowID: string): Result<unknown> => {
+    return ok(workflowStore.getWorkflowDefinition(workflowID));
+  };
 
-export const isOutdated = async (sdk: SDK): Promise<boolean> => {
+export const isOutdated = async (sdk: SDK): Promise<Result<boolean>> => {
   const updateAvailable = await sdk.meta.updateAvailable();
-  return updateAvailable;
-}
+  return ok(updateAvailable);
+};
 
 export type API = DefineAPI<{
-  listWorkflows: typeof listWorkflows;
-  workflowDefinition: typeof workflowDefinition;
+  listWorkflows: ReturnType<typeof createListWorkflows>;
+  workflowDefinition: ReturnType<typeof createWorkflowDefinition>;
   isOutdated: typeof isOutdated;
 }>;
 
 export function init(sdk: SDK<API>) {
-  const workflowStore = WorkflowStore.getInstance();
-  workflowStore.setSdk(sdk);
+  const workflowStore = new WorkflowStore(sdk);
   workflowStore.loadWorkflows();
 
-  sdk.api.register("listWorkflows", listWorkflows);
-  sdk.api.register("workflowDefinition", workflowDefinition);
+  sdk.api.register("listWorkflows", createListWorkflows(workflowStore));
+  sdk.api.register(
+    "workflowDefinition",
+    createWorkflowDefinition(workflowStore),
+  );
   sdk.api.register("isOutdated", isOutdated);
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Workflow } from 'shared';
+import type { Workflow } from "shared";
 
 defineProps<{
   workflow: Workflow;
@@ -18,7 +18,12 @@ defineProps<{
         ({{ workflow.author.email }})
       </span>
     </p>
-    <a v-if="workflow.url" :href="workflow.url" target="_blank" class="text-blue-500 hover:underline">
+    <a
+      v-if="workflow.url"
+      :href="workflow.url"
+      target="_blank"
+      class="text-blue-500 hover:underline"
+    >
       Source Code
     </a>
   </div>

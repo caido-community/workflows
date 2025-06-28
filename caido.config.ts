@@ -3,7 +3,6 @@ import tailwindCaido from "@caido/tailwindcss";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "tailwindcss";
 import tailwindPrimeui from "tailwindcss-primeui";
-// @ts-expect-error
 import path from "path";
 import prefixwrap from "postcss-prefixwrap";
 
@@ -44,7 +43,6 @@ export default defineConfig({
           alias: [
             {
               find: "@",
-              // @ts-expect-error
               replacement: path.resolve(__dirname, "packages/frontend/src"),
             },
           ],

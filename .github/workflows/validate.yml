@@ -1,0 +1,46 @@
+name: 🔍 PR Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/workflows/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+env:
+  NODE_VERSION: 20
+  PNPM_VERSION: 9
+
+jobs:
+  validate-workflows:
+    name: Validate Workflows Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: true
+
+      - name: Build workflows
+        run: pnpm build:workflows
+
+      - name: Check build artifacts
+        run: |
+          if [ ! -d "dist-workflows" ]; then
+            echo "❌ dist-workflows directory not found"
+            exit 1
+          fi
+
+          workflow_count=$(find dist-workflows -name "definition.json" | wc -l)
+          echo "✅ Successfully built $workflow_count workflows"

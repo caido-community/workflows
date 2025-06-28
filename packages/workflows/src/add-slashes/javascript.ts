@@ -1,4 +1,4 @@
-import { BytesInput, SDK, Data } from "caido:workflow";
+import { type BytesInput, type Data, type SDK } from "caido:workflow";
 
 /**
  * @param {BytesInput} input
@@ -7,10 +7,10 @@ import { BytesInput, SDK, Data } from "caido:workflow";
  */
 
 function addSlashes(str: string): string {
-    return str.replace(/([\\'\"])/g, '\\$1');
+  return str.replace(/([\\'\"])/g, "\\$1");
 }
 
 export function run(input: BytesInput, sdk: SDK): MaybePromise<Data> {
-  let parsed = sdk.asString(input);
+  const parsed = sdk.asString(input);
   return addSlashes(parsed);
 }

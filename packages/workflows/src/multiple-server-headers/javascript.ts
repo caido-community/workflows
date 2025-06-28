@@ -10,32 +10,34 @@ export async function run({ request, response }, sdk) {
   //       if dedupekey of hostname exists check if the server in the desciption matches if not not then we have a multiple serverheader scenario
   if (request && response) {
     const prefix = "ServerMulti_IgnoreThisFinding_";
-    let host = request.getHost();
-    let hostdedupekey = `server_multi_${host}`;
-    let serverheaders = response.getHeader('server');
-    if(!(await sdk.findings.exists(hostdedupekey))){
+    const host = request.getHost();
+    const hostdedupekey = `server_multi_${host}`;
+    const serverheaders = response.getHeader("server");
+    if (!(await sdk.findings.exists(hostdedupekey))) {
       await sdk.findings.create({
         title: "ServerIgnore",
         description: `${prefix}${serverheaders[0]}`,
         request: request,
         reporter: "ServerMulti_IgnoreThisFinding",
-        dedupeKey: hostdedupekey
+        dedupeKey: hostdedupekey,
       });
       return;
     }
 
-    let existingFinding = await sdk.findings.get(hostdedupekey);
-    let seenServerValue = existingFinding.getDescription().substring(prefix.length);
-    
-    for(var server of serverheaders){
-      if(server != seenServerValue){
+    const existingFinding = await sdk.findings.get(hostdedupekey);
+    const seenServerValue = existingFinding
+      .getDescription()
+      .substring(prefix.length);
+
+    for (const server of serverheaders) {
+      if (server != seenServerValue) {
         // Create finding for new server header
         await sdk.findings.create({
           title: `New Server Header: ${server}`,
           description: `Webserver ${host} returned a new server header: ${server}.`,
           request: request,
           reporter: "ServerMulti",
-          dedupeKey: `server_multi_${host}_${server}`
+          dedupeKey: `server_multi_${host}_${server}`,
         });
 
         // Create finding for old server header now that we have multiple
@@ -45,7 +47,7 @@ export async function run({ request, response }, sdk) {
             description: `Webserver ${host} returned a new server header: ${seenServerValue}.`,
             request: request,
             reporter: "ServerMulti",
-            dedupeKey: `server_multi_${host}_${seenServerValue}`
+            dedupeKey: `server_multi_${host}_${seenServerValue}`,
           });
         }
       }
