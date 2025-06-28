@@ -1,0 +1,219 @@
+{
+  "description": "## Workflow Description\n\nThis workflow enhances your security testing in Caido by leveraging AI to analyze HTTP requests for potential vulnerabilities. It sends the raw HTTP request to an AI model via the GroqCloud API, which then performs a thorough security analysis.\n\nFor each request you will find output in Findings tab.\nIf a request is out of scope, it will be flagged with RED color and analysis will not be performed.\n\n\n## Setup Steps\n\n- Get a GroqCloud API Key:\n    - Sign up for a GroqCloud account at GroqCloud’s website to obtain an API key. This key is required to connect to the AI model.\n\n- Configure Environment Variables in Caido:\n    - Set the following variables in Caido’s settings to link the workflow to GroqCloud:\n        - GroqCloud_API_key: Enter your GroqCloud API key here.\n        - GroqCloud_model_for_AI_Mentor: Specify the AI model you want to use (e.g., a model suited for security analysis or natural language tasks). Check GroqCloud’s documentation for available models and pick one that fits your needs.\n\nRun the Workflow:\nSelect an HTTP request in Caido and trigger the workflow. The AI Mentor’s suggestions will appear in Caido’s Findings.\n\n",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 4
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 5
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 5
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "active_start",
+        "definition_id": "caido/active-start",
+        "display": {
+          "x": -90,
+          "y": -150
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Active Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "active_end",
+        "definition_id": "caido/active-end",
+        "display": {
+          "x": 0,
+          "y": 300
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Active End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": -100,
+          "y": 50
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$active_start.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": 30,
+          "y": -40
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "set_color",
+        "definition_id": "caido/color-set",
+        "display": {
+          "x": 70,
+          "y": 90
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "color",
+            "value": {
+              "data": "#ff0000",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Set Color",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "create_finding",
+        "definition_id": "caido/finding-create",
+        "display": {
+          "x": -100,
+          "y": 180
+        },
+        "id": 5,
+        "inputs": [
+          {
+            "alias": "description",
+            "value": {
+              "data": "$javascript.data",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "reporter",
+            "value": {
+              "data": "AI Mentor (GroqCloud)",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "title",
+            "value": {
+              "data": "AI Mentor suggestion",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Create Finding",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "fd8c92d6-860d-4470-889d-3626effc472b",
+  "kind": "active",
+  "name": "AI Mentor (GroqCloud)"
+}
