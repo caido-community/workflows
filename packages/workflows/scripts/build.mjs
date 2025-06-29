@@ -224,6 +224,9 @@ for (const workflowDir of workflowDirs) {
             fs.unlinkSync(distFile);
         } else {
             console.warn(`[!]    No external script at ${scriptPath}`);
+            if (jsNode.value.data === "") {
+                throw new Error(`[!]    No code provided for ${jsNode.alias} node. The alias for code nodes should match the name of the TypeScript file. We usually use the alias "javascript" with a corresponding javascript.ts file.`);
+            }
         }
     }
 

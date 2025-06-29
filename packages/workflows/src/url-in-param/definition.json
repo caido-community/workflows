@@ -175,7 +175,7 @@
         "version": "0.1.0"
       },
       {
-        "alias": "dedupe",
+        "alias": "javascript",
         "definition_id": "caido/http-code-js",
         "display": {
           "x": -150,
