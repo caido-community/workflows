@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import Column from "primevue/column";
+import DataTable from "primevue/datatable";
+import type { Workflow } from "shared";
 import { ref } from "vue";
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import type { Workflow } from 'shared';
-import WorkflowActions from '@/components/workflows/actions/WorkflowActions.vue';
-import WorkflowDetails from '@/components/workflows/list/WorkflowDetails.vue';
+
+import WorkflowActions from "@/components/workflows/actions/WorkflowActions.vue";
+import WorkflowDetails from "@/components/workflows/list/WorkflowDetails.vue";
 
 defineProps<{
   workflows: Workflow[];
@@ -15,12 +16,12 @@ const expandedRows = ref({});
 
 <template>
   <DataTable
+    v-model:expanded-rows="expandedRows"
     :value="workflows"
-    stripedRows
-    v-model:expandedRows="expandedRows"
-    dataKey="id"
-    expandedRowIcon="fas fa-chevron-down"
-    collapsedRowIcon="fas fa-chevron-right"
+    striped-rows
+    data-key="id"
+    expanded-row-icon="fas fa-chevron-down"
+    collapsed-row-icon="fas fa-chevron-right"
     scrollable
     class="h-full"
   >
@@ -31,7 +32,7 @@ const expandedRows = ref({});
     <Column header="Author" style="width: 15%">
       <template #body="slotProps">
         {{ slotProps.data.author.name }}
-        <span class="text-gray-500 text-sm" v-if="slotProps.data.author.email">
+        <span v-if="slotProps.data.author.email" class="text-gray-500 text-sm">
           ({{ slotProps.data.author.email }})
         </span>
       </template>

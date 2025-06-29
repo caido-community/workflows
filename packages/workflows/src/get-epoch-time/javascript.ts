@@ -1,4 +1,4 @@
-import { BytesInput, SDK } from "caido:workflow";
+import { type BytesInput, type SDK } from "caido:workflow";
 
 /**
  * @param {BytesInput} input
@@ -6,6 +6,6 @@ import { BytesInput, SDK } from "caido:workflow";
  * @returns {MaybePromise<Data>}
  */
 export function run(input: BytesInput, sdk: SDK): MaybePromise<Data> {
-  let parsed = sdk.asString(Date.now().toString());
+  const parsed = sdk.asString(Date.now().toString());
   return parsed;
 }

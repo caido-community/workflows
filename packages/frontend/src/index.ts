@@ -1,11 +1,12 @@
 import { Classic } from "@caido/primevue";
+import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
-import { createApp } from "vue";
 import TooltipDirective from "primevue/tooltip";
+import { createApp } from "vue";
+
 import { SDKPlugin } from "./plugins/sdk";
-import type { FrontendSDK } from "./types";
-import { createPinia } from 'pinia'
 import "./styles/index.css";
+import type { FrontendSDK } from "./types";
 import App from "./views/App.vue";
 
 export const init = (sdk: FrontendSDK) => {
@@ -19,7 +20,7 @@ export const init = (sdk: FrontendSDK) => {
   app.use(SDKPlugin, sdk);
   app.directive("tooltip", TooltipDirective);
 
-  const pinia = createPinia()
+  const pinia = createPinia();
   app.use(pinia);
 
   const root = document.createElement("div");

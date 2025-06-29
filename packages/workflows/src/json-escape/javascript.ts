@@ -1,6 +1,6 @@
-import { BytesInput, SDK } from "caido:workflow";
+import { type BytesInput, type SDK } from "caido:workflow";
 
 export function run(input: BytesInput, sdk: SDK) {
-    let parsed = sdk.asString(input);
-    return JSON.stringify(parsed);
+  const parsed = sdk.asString(input);
+  return JSON.stringify(parsed);
 }

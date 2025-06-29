@@ -1,4 +1,4 @@
-import { HttpInput, SDK } from "caido:workflow";
+import { type HttpInput, type SDK } from "caido:workflow";
 
 /**
  * @param {HttpInput} input
@@ -23,7 +23,7 @@ export async function run({ request, response }: HttpInput, sdk: SDK) {
     description += `[+] Cookies have been issued by ${host} (ID=${reqID})\n`;
 
     const maxCookieKeyLength = Math.max(
-      ...cookies.map((cookie) => cookie?.split("=")[0]?.trim().length ?? 0)
+      ...cookies.map((cookie) => cookie?.split("=")[0]?.trim().length ?? 0),
     );
 
     for (const cookie of cookies) {
@@ -36,11 +36,11 @@ export async function run({ request, response }: HttpInput, sdk: SDK) {
       }
 
       description += `Cookie name : ${cookieKey.padEnd(
-        maxCookieKeyLength
+        maxCookieKeyLength,
       )}\t(SameSite = ${sameSitePolicy})\n`;
     }
 
-    let finding = {
+    const finding = {
       title: "Cookies Issued",
       description: description.trim(),
       reporter: "SameSiteFinder",

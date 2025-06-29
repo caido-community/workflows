@@ -1,6 +1,7 @@
-import { SDK, Data, HttpInput } from "caido:workflow";
+import { type Data, type HttpInput, type SDK } from "caido:workflow";
+
+import { excludePatterns, nopKinds } from "./config";
 import db from "./db";
-import { nopKinds, excludePatterns } from "./config";
 import { Kind } from "./types";
 
 type Result = {
@@ -40,7 +41,7 @@ async function findLeaks(
     const ex = excludePatterns[kind];
     if (ex && ex.includes(pattern.name)) continue;
     if (!matches) continue;
-    let result: Result = { ...pattern, matches };
+    const result: Result = { ...pattern, matches };
     results.push(result);
   }
 
@@ -110,7 +111,7 @@ export async function run(
       }
 
       for (const result of results) {
-        let finding: FindingSpec = {
+        const finding: FindingSpec = {
           title: "Found",
           reporter: "Leakz",
           request: request,

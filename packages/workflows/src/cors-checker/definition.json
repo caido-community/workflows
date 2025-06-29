@@ -1,0 +1,91 @@
+{
+  "description": "Performs checks for misconfigured CORS",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "active_start",
+        "definition_id": "caido/active-start",
+        "display": {
+          "x": 10,
+          "y": 30
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Active Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "active_end",
+        "definition_id": "caido/active-end",
+        "display": {
+          "x": 10,
+          "y": 260
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Active End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": 10,
+          "y": 140
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$active_start.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "response",
+            "value": {
+              "data": "$active_start.response",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "6f826ebf-a030-4aa4-aef1-57f03782b5a2",
+  "kind": "active",
+  "name": "CORS Checker"
+}

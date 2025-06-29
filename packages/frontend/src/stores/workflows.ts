@@ -1,7 +1,8 @@
-import { useSDK } from "@/plugins/sdk";
 import { defineStore } from "pinia";
 import type { Workflow } from "shared";
 import { computed, ref } from "vue";
+
+import { useSDK } from "@/plugins/sdk";
 
 export interface WorkflowState {
   workflows: Workflow[];
@@ -30,23 +31,31 @@ export const useWorkflowStore = defineStore("workflows", () => {
         workflow?.name
           .toLowerCase()
           .includes(searchQuery.value.toLowerCase()) ||
-        workflow?.id
-          .toLowerCase()
-          .includes(searchQuery.value.toLowerCase())
-    )
+        workflow?.id.toLowerCase().includes(searchQuery.value.toLowerCase()),
+    ),
   );
 
   // Actions
   const loadWorkflows = async () => {
-    workflows.value = (await sdk.backend.listWorkflows()) || [];
+    const workflowsResult = await sdk.backend.listWorkflows();
+    switch (workflowsResult.kind) {
+      case "Success":
+        workflows.value = workflowsResult.value;
+        break;
+      case "Error":
+        console.error("Error loading workflows:", workflowsResult.error);
+        sdk.window.showToast("Error loading workflows", {
+          variant: "error",
+        });
+    }
   };
 
   const setSearchQuery = (query: string) => {
     searchQuery.value = query;
   };
 
-  const refetchInstalledWorkflows = async () => {
-    installedWorkflowsNames.value = await installedWorkflows();
+  const refetchInstalledWorkflows = () => {
+    installedWorkflowsNames.value = installedWorkflows();
   };
 
   const isWorkflowInstalled = (workflowName: string): boolean => {
@@ -54,28 +63,37 @@ export const useWorkflowStore = defineStore("workflows", () => {
   };
 
   const installWorkflow = async (
-    workflowID: string
+    workflowID: string,
   ): Promise<WorkflowResult> => {
     try {
-      const definition = await sdk.backend.workflowDefinition(workflowID);
-      const { createWorkflow } = await sdk.graphql.createWorkflow({
-        input: { definition, global: false },
-      });
+      const result = await sdk.backend.workflowDefinition(workflowID);
 
-      if (createWorkflow.workflow) {
+      if (result.kind === "Success") {
+        const definition = result.value as Record<string, unknown>;
+        const { createWorkflow } = await sdk.graphql.createWorkflow({
+          input: { definition, global: false },
+        });
+
+        if (createWorkflow.workflow) {
+          return {
+            error: false,
+            kind: "success",
+            message: "Workflow installed successfully",
+          };
+        }
         return {
-          error: false,
-          kind: "success",
-          message: "Workflow installed successfully",
+          error: true,
+          kind: "error",
+          message: createWorkflow.error
+            ? JSON.stringify(createWorkflow.error)
+            : "Unknown error",
         };
       }
 
       return {
         error: true,
         kind: "error",
-        message: createWorkflow.error
-          ? JSON.stringify(createWorkflow.error)
-          : "Unknown error occurred",
+        message: result.error ? JSON.stringify(result.error) : "Unknown error",
       };
     } catch (error) {
       console.error("Error installing workflow:", error);
@@ -99,14 +117,15 @@ export const useWorkflowStore = defineStore("workflows", () => {
     return installedCount;
   };
 
-  const installedWorkflows = async (): Promise<string[]> => {
+  const installedWorkflows = (): string[] => {
     const workflowsList = sdk.workflows.getWorkflows();
     return workflowsList.map((workflow) => workflow.name);
   };
 
-  // Initialize
-  loadWorkflows();
-  refetchInstalledWorkflows();
+  const initialize = async () => {
+    await loadWorkflows();
+    refetchInstalledWorkflows();
+  };
 
   return {
     // State
@@ -126,5 +145,6 @@ export const useWorkflowStore = defineStore("workflows", () => {
     isWorkflowInstalled,
     installWorkflow,
     installAllWorkflows,
+    initialize,
   };
 });

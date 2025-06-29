@@ -4,9 +4,9 @@
  * @returns {MaybePromise<Data | undefined>}
  */
 export async function run({ request, response }, sdk) {
-    if(response) {
-        let body = response.getBody().toText().trimLeft();
-        let contentTypeHeader = response.getHeader('Content-Type');
+  if (response) {
+    const body = response.getBody().toText().trimLeft();
+    const contentTypeHeader = response.getHeader("Content-Type");
 
         if (body.startsWith('{') || body.startsWith('[')) {
             // Regex to ignore application/json application/manifest+json 
@@ -24,4 +24,5 @@ export async function run({ request, response }, sdk) {
             } 
         }
     }
+  }
 }

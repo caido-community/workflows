@@ -1,0 +1,11 @@
+{
+    "author": {
+      "name": "0daystolive",
+      "email": "dont@me.bro"
+    },
+    "url": "https://github.com/caido-community/workflows/packages/workflows/cors-checker/README.md",
+    "description": "Active workflow for testing CORS issues",
+    "id": "cors-checker",
+    "name": "CORS Checker",
+    "version": "0.0.1"
+  }

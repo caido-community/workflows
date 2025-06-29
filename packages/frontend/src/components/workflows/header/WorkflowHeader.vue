@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import IconField from "primevue/iconfield";
-import InputText from "primevue/inputtext";
 import Button from "primevue/button";
-import { useWorkflowStore } from "@/stores/workflows";
-import { useSDK } from "@/plugins/sdk";
-import { ref, computed, onMounted } from "vue";
+import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
+import InputText from "primevue/inputtext";
+import { computed, onMounted, ref } from "vue";
+
+import { useSDK } from "@/plugins/sdk";
+import { useWorkflowStore } from "@/stores/workflows";
 
 const sdk = useSDK();
 const store = useWorkflowStore();
@@ -15,7 +16,7 @@ const isPluginOutdated = ref(false);
 
 const notInstalledWorkflows = computed(() => {
   return store.filteredWorkflows.filter(
-    (workflow) => !store.installedWorkflowsNames.includes(workflow.name)
+    (workflow) => !store.installedWorkflowsNames.includes(workflow.name),
   );
 });
 
@@ -25,7 +26,7 @@ const handleInstallAll = async () => {
     const installedCount = await store.installAllWorkflows();
     sdk.window.showToast(
       `All ${installedCount} workflows installed successfully`,
-      { variant: "success" }
+      { variant: "success" },
     );
   } finally {
     isInstalling.value = false;
@@ -33,8 +34,12 @@ const handleInstallAll = async () => {
 };
 
 onMounted(() => {
-  sdk.backend.isOutdated().then((isOutdated) => {
-    isPluginOutdated.value = isOutdated;
+  sdk.backend.isOutdated().then((result) => {
+    if (result.kind === "Success") {
+      isPluginOutdated.value = result.value;
+    } else {
+      console.error("Error checking if plugin is outdated:", result.error);
+    }
   });
 });
 </script>
@@ -44,7 +49,8 @@ onMounted(() => {
     <div class="flex-1">
       <h3 class="text-lg font-semibold">Workflows Store</h3>
       <p class="text-sm text-surface-300 flex-1">
-        Browse and install various workflows from our collection of pre-built workflows with a single click
+        Browse and install various workflows from our collection of pre-built
+        workflows with a single click
       </p>
     </div>
     <div
@@ -61,12 +67,12 @@ onMounted(() => {
     <Button
       :label="`Install all (${notInstalledWorkflows.length})`"
       icon="fas fa-download"
-      @click="handleInstallAll"
       :loading="isInstalling"
       :disabled="notInstalledWorkflows.length === 0"
       :class="{
         'p-button-secondary': notInstalledWorkflows.length === 0,
       }"
+      @click="handleInstallAll"
     ></Button>
   </div>
 </template>
