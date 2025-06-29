@@ -22,7 +22,7 @@ export async function run({ request, response }, sdk) {
               description: `The response from ${request.getUrl()} contains the value "${cookie_val}" which is also the value of the cookie "${cookie_name}"`,
               request: request,
               reporter: "CookieValueReflectedInResponse",
-              dedupeKey: `cookie_reflect_${request.getUrl()}_${cookie_name}_${cookie_val}`
+              dedupeKey: `cookie_reflect_${request.getHost()}${request.getPath()()}_${cookie_name}_${cookie_val}`
             });
           }
         }
