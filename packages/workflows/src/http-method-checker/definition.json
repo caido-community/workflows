@@ -88,7 +88,7 @@
           {
             "alias": "code",
             "value": {
-              "data": "export async function run({ request, response }, sdk) {\n  if (!request) return;\n\n  const orig = request.getMethod();\n  const spec = request.toSpec();\n  spec.setMethod(\"OPTIONS\");\n\n  // Send the dynamic OPTIONS probe to the same host/path\n  const probe = await sdk.requests.send(spec);\n\n  if (probe.response) {\n    const headers = probe.response.getHeaders();\n    const allow = headers[\"allow\"]?.[0] || \"\";\n    const cors = headers[\"access-control-allow-methods\"]?.[0] || \"\";\n    const methods = (allow || cors).split(/\\s*,\\s*/);\n\n    if (methods.length && !methods.includes(orig)) {\n      const dedupeKey = ${request.getHost()}|${request.getPath()}|${orig}|${methods.join(\",\")};\n      await sdk.findings.create({\n        title: \"Extraneous HTTP methods exposed\",\n        description: OPTIONS listed methods [${methods.join(\", \")}], original: ${orig},\n        request,\n        response: probe.response,\n        dedupeKey\n      });\n    }\n  }\n}",
+              "data": "",
               "kind": "string"
             }
           }
