@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/filter-authenticated-non-bearer-tokens/README.md",
+  "description": "Filters authenticated requests with Authorization headers that are not traditional bearer tokens (not starting with 'ey')",
+  "id": "filter-authenticated-non-bearer-tokens",
+  "name": "Filter Authenticated Non-Bearer Tokens",
+  "version": "0.1.0"
+}

@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/jsonp-csp-bypass/README.md",
+  "description": "Identifies JSONP endpoints that could bypass CSP restrictions through controllable callback parameters",
+  "id": "jsonp-csp-bypass",
+  "name": "JSONP CSP Bypass",
+  "version": "0.1.0"
+}

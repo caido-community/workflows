@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/filter-authenticated/README.md",
+  "description": "Filters authenticated requests with 2XX responses, focusing on session cookies and authorization headers",
+  "id": "filter-authenticated",
+  "name": "Filter Authenticated Requests",
+  "version": "0.1.0"
+}

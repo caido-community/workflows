@@ -1,0 +1,77 @@
+{
+  "description": "Detects suspicious JavaScript functions in responses that may indicate XSS vulnerabilities or unsafe practices",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "start",
+        "definition_id": "caido/passive-start",
+        "display": {
+          "x": 0,
+          "y": -120
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Start",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 0,
+          "y": 230
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "End",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "js_detector",
+        "definition_id": "caido/javascript",
+        "display": {
+          "x": 0,
+          "y": 60
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$start.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "JavaScript",
+        "version": "^0.1.0"
+      }
+    ]
+  },
+  "id": "detect-suspicious-js-functions",
+  "kind": "passive",
+  "name": "Detect Suspicious JS Functions"
+}

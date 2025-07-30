@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/detect-suspicious-js-functions/README.md",
+  "description": "Detects suspicious JavaScript functions in responses that may indicate XSS vulnerabilities or unsafe practices",
+  "id": "detect-suspicious-js-functions",
+  "name": "Detect Suspicious JS Functions",
+  "version": "0.1.0"
+}
