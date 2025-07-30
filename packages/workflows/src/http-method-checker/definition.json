@@ -1,0 +1,172 @@
+{
+  "description": "Passively probes each proxied HTTP request with a subsequent HTTP OPTIONS request and reports when the OPTIONS response includes allowed methods beyond the original request method.",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 5
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 5
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "on_intercept_request",
+        "definition_id": "caido/on-intercept-request",
+        "display": {
+          "x": -10,
+          "y": -110
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "On intercept request",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": -10,
+          "y": 260
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "options_probe",
+        "definition_id": "caido/http-code-js",
+        "display": {
+          "x": -10,
+          "y": 80
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_request.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "export async function run({ request, response }, sdk) {\n  if (!request) return;\n\n  const orig = request.getMethod();\n  const spec = request.toSpec();\n  spec.setMethod(\"OPTIONS\");\n\n  // Send the dynamic OPTIONS probe to the same host/path\n  const probe = await sdk.requests.send(spec);\n\n  if (probe.response) {\n    const headers = probe.response.getHeaders();\n    const allow = headers[\"allow\"]?.[0] || \"\";\n    const cors = headers[\"access-control-allow-methods\"]?.[0] || \"\";\n    const methods = (allow || cors).split(/\\s*,\\s*/);\n\n    if (methods.length && !methods.includes(orig)) {\n      const dedupeKey = ${request.getHost()}|${request.getPath()}|${orig}|${methods.join(\",\")};\n      await sdk.findings.create({\n        title: \"Extraneous HTTP methods exposed\",\n        description: OPTIONS listed methods [${methods.join(\", \")}], original: ${orig},\n        request,\n        response: probe.response,\n        dedupeKey\n      });\n    }\n  }\n}",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "OPTIONS Request Probe",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "create_finding",
+        "definition_id": "caido/finding-create",
+        "display": {
+          "x": -10,
+          "y": 170
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "title",
+            "value": {
+              "data": "Create Finding",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "reporter",
+            "value": {
+              "data": "HTTP Method Checker",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "dedupe_key",
+            "value": {
+              "data": "`${host}|${path}|${origMethod}|${allowHeader}`, ",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$options_probe.data",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "description",
+            "value": {
+              "data": "$options_probe.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Create Finding",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": -10,
+          "y": -10
+        },
+        "id": 5,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_request.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "ce244451-262d-4c01-89d0-358b8fc58a2b",
+  "kind": "passive",
+  "name": "HTTP Method Checker"
+}
