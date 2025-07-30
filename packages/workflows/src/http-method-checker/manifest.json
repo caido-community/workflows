@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/http-method-checker/README.md",
+  "description": "Detects HTTP methods exposed by dynamically probing endpoints with OPTIONS requests.",
+  "id": "http-method-checker",
+  "name": "HTTP Method Checker",
+  "version": "0.1.0"
+}
