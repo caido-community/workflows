@@ -1,5 +1,9 @@
 # Detect Server Names
 
+## Author
+- **Name:** [Ads Dawson](https://github.com/GangGreenTemperTatum)
+
+## Description
 This workflow identifies and highlights HTTP responses containing specific server names in the Server header, helping with reconnaissance and server identification.
 
 ## Features
@@ -32,7 +36,7 @@ This passive workflow runs automatically on all HTTP traffic. When it detects a 
 The workflow checks the exact Server header value against a comprehensive list of known server names. This helps in:
 
 - Technology stack identification
-- Security assessment planning  
+- Security assessment planning
 - Attack surface analysis
 - Infrastructure reconnaissance
 

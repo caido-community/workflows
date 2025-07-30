@@ -1,5 +1,9 @@
 # Highlight Tracker Services
 
+## Author
+- **Name:** [Ads Dawson](https://github.com/GangGreenTemperTatum)
+
+## Description
 This workflow identifies and highlights requests to known tracking services and analytics platforms, helping you understand what data is being collected during web browsing.
 
 ## Features

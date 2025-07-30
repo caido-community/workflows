@@ -1,10 +1,14 @@
 # Annotate SOAP Requests
 
+## Author
+- **Name:** [Ads Dawson](https://github.com/GangGreenTemperTatum)
+
+## Description
 This workflow automatically annotates SOAP requests by extracting usernames from WS-Security headers and body elements, populating them in the Notes column.
 
 ## Features
 
-- Detects SOAP requests by Content-Type header containing "soap+xml"  
+- Detects SOAP requests by Content-Type header containing "soap+xml"
 - Only processes in-scope requests
 - Skips requests that already have notes
 - Extracts usernames from WS-Security headers

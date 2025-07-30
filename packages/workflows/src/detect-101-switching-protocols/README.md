@@ -1,5 +1,9 @@
 # Detect 101 Switching Protocols
 
+## Author
+- **Name:** [Ads Dawson](https://github.com/GangGreenTemperTatum)
+
+## Description
 This workflow identifies HTTP responses with the 101 Switching Protocols status code, which indicates the server is switching to a different protocol as requested by the client.
 
 ## Features

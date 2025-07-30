@@ -1,5 +1,9 @@
 # Filter Authenticated Requests
 
+## Author
+- **Name:** [Ads Dawson](https://github.com/GangGreenTemperTatum)
+
+## Description
 This workflow identifies authenticated HTTP requests that received successful 2XX responses, helping focus testing efforts on authenticated areas of applications.
 
 ## Features
