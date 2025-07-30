@@ -1,0 +1,131 @@
+{
+  "description": "Highlights unencrypted HTTP traffic (non-HTTPS requests) for security assessment",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "start",
+        "definition_id": "caido/passive-start",
+        "display": {
+          "x": 0,
+          "y": -120
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Start",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 0,
+          "y": 230
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "End",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "http_check",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 0,
+          "y": 20
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.url STARTS_WITH \"http://\"",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$start.data.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "HTTP Check",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "color_red",
+        "definition_id": "caido/color-set",
+        "display": {
+          "x": 0,
+          "y": 100
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "color",
+            "value": {
+              "data": "red",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$start.data.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Color Red",
+        "version": "^0.1.0"
+      }
+    ]
+  },
+  "id": "highlight-unencrypted-http",
+  "kind": "passive",
+  "name": "Highlight Unencrypted HTTP"
+}

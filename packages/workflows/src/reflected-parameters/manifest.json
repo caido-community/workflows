@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/reflected-parameters/README.md",
+  "description": "Detects when parameter names and values are reflected in HTTP responses, indicating potential XSS, SSTI, or injection vulnerabilities",
+  "id": "reflected-parameters",
+  "name": "Reflected Parameters",
+  "version": "0.1.0"
+}

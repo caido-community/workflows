@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/highlight-tracker-services/README.md",
+  "description": "Identifies and highlights requests to known tracking services and analytics platforms",
+  "id": "highlight-tracker-services",
+  "name": "Highlight Tracker Services",
+  "version": "0.1.0"
+}

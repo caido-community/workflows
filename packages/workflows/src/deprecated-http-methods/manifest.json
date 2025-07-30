@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/deprecated-http-methods/README.md",
+  "description": "Identifies requests using deprecated or uncommon HTTP methods like TRACE and CONNECT",
+  "id": "deprecated-http-methods",
+  "name": "Deprecated HTTP Methods",
+  "version": "0.1.0"
+}

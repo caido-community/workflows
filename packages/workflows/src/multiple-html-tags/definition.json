@@ -1,0 +1,208 @@
+{
+  "description": "Detects responses with multiple HTML closing tags, indicating potential HTML injection or malformed responses",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 4
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 5
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 5
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "false",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "start",
+        "definition_id": "caido/passive-start",
+        "display": {
+          "x": 0,
+          "y": -120
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Start",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 0,
+          "y": 280
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "End",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "has_response",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 0,
+          "y": 20
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "query",
+            "value": {
+              "data": "resp != null",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$start.data.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Has Response",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "is_html",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 0,
+          "y": 80
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "query",
+            "value": {
+              "data": "resp.headers.\"content-type\" CONTAINS \"html\"",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$start.data.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Is HTML",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "multiple_tags_check",
+        "definition_id": "caido/javascript",
+        "display": {
+          "x": 0,
+          "y": 140
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$start.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Multiple Tags Check",
+        "version": "^0.1.0"
+      },
+      {
+        "alias": "color_orange",
+        "definition_id": "caido/color-set",
+        "display": {
+          "x": 0,
+          "y": 200
+        },
+        "id": 5,
+        "inputs": [
+          {
+            "alias": "color",
+            "value": {
+              "data": "orange",
+              "kind": "string"
+            }
+          },
+          {
+            "alias": "request",
+            "value": {
+              "data": "$start.data.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Color Orange",
+        "version": "^0.1.0"
+      }
+    ]
+  },
+  "id": "multiple-html-tags",
+  "kind": "passive",
+  "name": "Multiple HTML Tags"
+}

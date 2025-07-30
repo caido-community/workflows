@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/detect-server-names/README.md",
+  "description": "Detects and highlights specific server names in HTTP response Server headers",
+  "id": "detect-server-names",
+  "name": "Detect Server Names",
+  "version": "0.1.0"
+}

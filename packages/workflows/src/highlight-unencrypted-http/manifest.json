@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/highlight-unencrypted-http/README.md",
+  "description": "Highlights unencrypted HTTP traffic (non-HTTPS requests) for security assessment",
+  "id": "highlight-unencrypted-http",
+  "name": "Highlight Unencrypted HTTP",
+  "version": "0.1.0"
+}

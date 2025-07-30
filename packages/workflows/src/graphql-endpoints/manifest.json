@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/graphql-endpoints/README.md",
+  "description": "Identifies GraphQL endpoints with query parameters containing newlines, useful for GraphQL injection testing",
+  "id": "graphql-endpoints",
+  "name": "GraphQL Endpoints",
+  "version": "0.1.0"
+}

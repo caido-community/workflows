@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/multiple-html-tags/README.md",
+  "description": "Detects responses with multiple HTML closing tags, indicating potential HTML injection or malformed responses",
+  "id": "multiple-html-tags",
+  "name": "Multiple HTML Tags",
+  "version": "0.1.0"
+}

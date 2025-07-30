@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/detect-101-switching-protocols/README.md",
+  "description": "Detects HTTP responses with 101 Switching Protocols status code",
+  "id": "detect-101-switching-protocols",
+  "name": "Detect 101 Switching Protocols",
+  "version": "0.1.0"
+}
