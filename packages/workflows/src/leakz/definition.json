@@ -15,12 +15,32 @@
       },
       {
         "source": {
+          "exec_alias": "false",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 4
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
           "exec_alias": "exec",
           "node_id": 3
         },
         "target": {
           "exec_alias": "exec",
-          "node_id": 2
+          "node_id": 4
         }
       }
     ],
@@ -69,6 +89,26 @@
           }
         ],
         "name": "Leakz",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "in_scope",
+        "definition_id": "caido/in-scope",
+        "display": {
+          "x": 0,
+          "y": 85
+        },
+        "id": 4,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_response.request",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "In Scope",
         "version": "0.1.0"
       },
       {
