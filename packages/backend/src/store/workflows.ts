@@ -32,7 +32,7 @@ function parseDefinition(content: string): DefinitionData {
       name: getString(parsed, "name"),
       description: getString(parsed, "description"),
       version: getString(parsed, "version"),
-      kind: getString(parsed, "kind")
+      kind: getString(parsed, "kind"),
     };
   } catch {
     return {};

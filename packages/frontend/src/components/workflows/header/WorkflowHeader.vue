@@ -3,6 +3,7 @@ import Button from "primevue/button";
 import IconField from "primevue/iconfield";
 import InputIcon from "primevue/inputicon";
 import InputText from "primevue/inputtext";
+import type { Workflow } from "shared";
 import { computed, onMounted, ref } from "vue";
 
 import { useSDK } from "@/plugins/sdk";
@@ -16,7 +17,8 @@ const isPluginOutdated = ref(false);
 
 const notInstalledWorkflows = computed(() => {
   return store.filteredWorkflows.filter(
-    (workflow) => !store.installedWorkflowsNames.includes(workflow.name),
+    (workflow: Workflow) =>
+      store.installedWorkflowsNames.includes(workflow.name) === false
   );
 });
 
@@ -26,7 +28,7 @@ const handleInstallAll = async () => {
     const installedCount = await store.installAllWorkflows();
     sdk.window.showToast(
       `All ${installedCount} workflows installed successfully`,
-      { variant: "success" },
+      { variant: "success" }
     );
   } finally {
     isInstalling.value = false;

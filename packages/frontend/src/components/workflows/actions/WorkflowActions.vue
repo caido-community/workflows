@@ -15,7 +15,7 @@ const sdk = useSDK();
 
 const handleInstall = async () => {
   const result = await store.installWorkflow(props.workflow.id);
-  if (result.error) {
+  if (result.error !== undefined) {
     sdk.window.showToast(result.message, {
       variant: "error",
     });
