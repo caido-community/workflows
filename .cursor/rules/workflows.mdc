@@ -1,0 +1,37 @@
+globs: packages/workflows/src/*/javascript.ts
+description: Workflows kinds and typing (convert, passive, active)
+alwaysApply: false
+---
+# Workflows
+
+- Types: convert, passive, active
+- Always use the correct run typing for the workflow kind.
+
+Passive/Active:
+
+```ts
+import { type Data, type HttpInput, type SDK } from "caido:workflow";
+
+/**
+ * @param {HttpInput} input
+ * @param {SDK} sdk
+ * @returns {MaybePromise<Data | undefined>}
+ */
+export async function run(
+  { request, response }: HttpInput,
+  sdk: SDK,
+): Promise<Data | undefined> {}
+```
+
+Convert:
+
+```ts
+import { type BytesInput, type Data, type SDK } from "caido:workflow";
+
+/**
+ * @param {BytesInput} input
+ * @param {SDK} sdk
+ * @returns {MaybePromise<Data>}
+ */
+export function run(input: BytesInput, sdk: SDK): MaybePromise<Data> {}
+```
