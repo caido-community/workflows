@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/annotate-soap-requests/README.md",
+  "description": "Automatically annotates SOAP requests with extracted usernames and body elements in the Notes column",
+  "id": "annotate-soap-requests",
+  "name": "Annotate SOAP Requests",
+  "version": "0.1.0"
+}

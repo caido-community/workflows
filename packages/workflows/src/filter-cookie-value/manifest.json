@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/filter-cookie-value/README.md",
+  "description": "Filters HTTP requests based on specific cookie values for session analysis",
+  "id": "filter-cookie-value",
+  "name": "Filter Cookie Value",
+  "version": "0.1.0"
+}

@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/email-highlighter/README.md",
+  "description": "Detects and highlights email addresses in HTTP responses for reconnaissance and data leakage identification",
+  "id": "email-highlighter",
+  "name": "Email Highlighter",
+  "version": "0.1.0"
+}

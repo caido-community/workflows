@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/filter-out-options-requests/README.md",
+  "description": "Filters out HTTP OPTIONS requests from view to reduce noise in proxy history",
+  "id": "filter-out-options-requests",
+  "name": "Filter Out OPTIONS Requests",
+  "version": "0.1.0"
+}
