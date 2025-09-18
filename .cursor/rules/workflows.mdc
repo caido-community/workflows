@@ -7,6 +7,22 @@ alwaysApply: false
 - Types: convert, passive, active
 - Always use the correct run typing for the workflow kind.
 
+## definition.json
+
+**NEVER generate definition.json files for workflows without user confirmation**
+
+These files contain the workflow configuration and schema that developer should export directly from Caido. You don't know the exact schema, so you can't generate the workflow from scratch.
+
+Developer should:
+
+1. First create and configure the workflow in Caido's UI
+2. Export the workflow to get the correct definition.json
+3. Use that exported file
+
+You can make small modifications to existing definition.json files if requested, but never write them from scratch. Always ask for user confirmation before making any changes to definition.json files and remind them to export manually from Caido.
+
+## Types
+
 Passive/Active:
 
 ```ts
