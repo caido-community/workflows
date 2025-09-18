@@ -1,0 +1,225 @@
+{
+
+  "description": "Decompresses GZIP encoded data using Python's gzip module",
+
+  "edition": 2,
+
+  "graph": {
+
+    "edges": [
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 0
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        }
+
+      },
+
+      {
+
+        "source": {
+
+          "exec_alias": "exec",
+
+          "node_id": 2
+
+        },
+
+        "target": {
+
+          "exec_alias": "exec",
+
+          "node_id": 1
+
+        }
+
+      }
+
+    ],
+
+    "nodes": [
+
+      {
+
+        "alias": "convert_start",
+
+        "definition_id": "caido/convert-start",
+
+        "display": {
+
+          "x": -10,
+
+          "y": -100
+
+        },
+
+        "id": 0,
+
+        "inputs": [],
+
+        "name": "Convert Start",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "convert_end",
+
+        "definition_id": "caido/convert-end",
+
+        "display": {
+
+          "x": -20,
+
+          "y": 190
+
+        },
+
+        "id": 1,
+
+        "inputs": [
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$shell.data",
+
+              "kind": "ref"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Convert End",
+
+        "version": "0.1.0"
+
+      },
+
+      {
+
+        "alias": "shell",
+
+        "definition_id": "caido/shell-cmd",
+
+        "display": {
+
+          "x": -20,
+
+          "y": 10
+
+        },
+
+        "id": 2,
+
+        "inputs": [
+
+          {
+
+            "alias": "shell",
+
+            "value": {
+
+              "data": "bash",
+
+              "kind": "string"
+
+            }
+
+          },
+
+          {
+
+            "alias": "code",
+
+            "value": {
+
+              "data": "# Create temp file\ntmp_file=$(mktemp)\ndebug_info=\"\"\ntrap 'rm -f \"$tmp_file\"' EXIT\n\n# Save input to file\ncat - > \"$tmp_file\"\n\n# Get file info\ndebug_info+=\"=== Debug Info ===\\n\"\ndebug_info+=\"Input type: $(/usr/bin/file -b \"$tmp_file\")\\n\"\ndebug_info+=\"Size: $(wc -c < \"$tmp_file\") bytes\\n\"\ndebug_info+=\"First bytes: $(xxd -p -l 16 \"$tmp_file\")\\n\"\n\n# Try Python's gzip module with error handling\npython3 - \"$tmp_file\" <<'EOF'\nimport sys\nimport gzip\nfrom io import BytesIO\n\ntry:\n    with open(sys.argv[1], 'rb') as f:\n        data = f.read()\n        \n    # Try direct decompression first\n    try:\n        with gzip.open(BytesIO(data), 'rb') as gz:\n            result = gz.read()\n            sys.stdout.buffer.write(result)\n            sys.exit(0)\n    except Exception as e:\n        print(f\"Standard decompression failed: {e}\", file=sys.stderr)\n\n    # Try with wbits=-15 for raw deflate\n    try:\n        import zlib\n        decomp = zlib.decompressobj(-zlib.MAX_WBITS)\n        result = decomp.decompress(data[10:]) # Skip gzip header\n        sys.stdout.buffer.write(result)\n        sys.exit(0)\n    except Exception as e:\n        print(f\"Raw deflate failed: {e}\", file=sys.stderr)\n\n    print(\"All decompression attempts failed\", file=sys.stderr)\n    sys.exit(1)\nexcept Exception as e:\n    print(f\"Error: {e}\", file=sys.stderr)\n    sys.exit(1)\nEOF\n\n# If Python script failed, show debug info and error\nif [ $? -ne 0 ]; then\n    echo \"$debug_info\"\n    echo \"Failed to decompress data\"\nfi\n",
+
+              "kind": "string"
+
+            }
+
+          },
+
+          {
+
+            "alias": "init",
+
+            "value": {
+
+              "data": "",
+
+              "kind": "string"
+
+            }
+
+          },
+
+          {
+
+            "alias": "timeout",
+
+            "value": {
+
+              "data": 5000,
+
+              "kind": "integer"
+
+            }
+
+          },
+
+          {
+
+            "alias": "data",
+
+            "value": {
+
+              "data": "$convert_start.data",
+
+              "kind": "ref"
+
+            }
+
+          }
+
+        ],
+
+        "name": "Shell",
+
+        "version": "0.1.0"
+
+      }
+
+    ]
+
+  },
+
+  "id": "gzip-decompress-workflow",
+
+  "kind": "convert",
+
+  "name": "GZIP Decompress"
+
+}
