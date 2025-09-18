@@ -7,8 +7,9 @@
   "type": "module",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
-    "build": "pnpm -r build && caido-dev build",
-    "build:workflows": "pnpm --filter workflows run build",
+    "build": "caido-dev build",
+    "watch": "caido-dev watch",
+    "test": "vitest run",
     "lint": "eslint --fix packages/{backend,frontend}/src"
   },
   "devDependencies": {
