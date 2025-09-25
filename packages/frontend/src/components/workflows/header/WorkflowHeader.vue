@@ -18,7 +18,7 @@ const isPluginOutdated = ref(false);
 const notInstalledWorkflows = computed(() => {
   return store.filteredWorkflows.filter(
     (workflow: Workflow) =>
-      store.installedWorkflowsNames.includes(workflow.name) === false
+      store.installedWorkflowsNames.includes(workflow.name) === false,
   );
 });
 
@@ -28,7 +28,7 @@ const handleInstallAll = async () => {
     const installedCount = await store.installAllWorkflows();
     sdk.window.showToast(
       `All ${installedCount} workflows installed successfully`,
-      { variant: "success" }
+      { variant: "success" },
     );
   } finally {
     isInstalling.value = false;

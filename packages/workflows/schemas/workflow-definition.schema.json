@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WorkflowDefinition",
+  "type": "object",
+  "required": ["description", "edition", "graph", "id", "kind", "name"],
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "edition": {
+      "$ref": "#/definitions/Edition"
+    },
+    "graph": {
+      "$ref": "#/definitions/WorkflowGraph"
+    },
+    "id": {
+      "$ref": "#/definitions/SID"
+    },
+    "kind": {
+      "$ref": "#/definitions/WorkflowKind"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Alias": {
+      "type": "string"
+    },
+    "Edition": {
+      "type": "integer",
+      "format": "uint8",
+      "maximum": 2.0,
+      "minimum": 2.0
+    },
+    "NID": {
+      "description": "Number ID",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0.0
+    },
+    "SID": {
+      "description": "String ID",
+      "type": "string",
+      "minLength": 1
+    },
+    "WorkflowEdge": {
+      "type": "object",
+      "required": ["source", "target"],
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/WorkflowEdgeEndpoint"
+        },
+        "target": {
+          "$ref": "#/definitions/WorkflowEdgeEndpoint"
+        }
+      }
+    },
+    "WorkflowEdgeEndpoint": {
+      "type": "object",
+      "required": ["exec_alias", "node_id"],
+      "properties": {
+        "exec_alias": {
+          "$ref": "#/definitions/Alias"
+        },
+        "node_id": {
+          "$ref": "#/definitions/NID"
+        }
+      }
+    },
+    "WorkflowGraph": {
+      "type": "object",
+      "required": ["edges", "nodes"],
+      "properties": {
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkflowEdge"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkflowNode"
+          }
+        }
+      }
+    },
+    "WorkflowKind": {
+      "type": "string",
+      "enum": ["convert", "passive", "active"]
+    },
+    "WorkflowNode": {
+      "type": "object",
+      "required": ["alias", "definition_id", "id", "name", "version"],
+      "properties": {
+        "alias": {
+          "$ref": "#/definitions/Alias"
+        },
+        "definition_id": {
+          "$ref": "#/definitions/SID"
+        },
+        "display": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorkflowNodeDisplay"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "$ref": "#/definitions/NID"
+        },
+        "inputs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkflowNodeInput"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "WorkflowNodeDisplay": {
+      "type": "object",
+      "required": ["x", "y"],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "y": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "WorkflowNodeInput": {
+      "type": "object",
+      "required": ["alias", "value"],
+      "properties": {
+        "alias": {
+          "$ref": "#/definitions/Alias"
+        },
+        "value": {
+          "$ref": "#/definitions/WorkflowProperty"
+        }
+      }
+    },
+    "WorkflowProperty": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["data", "kind"],
+          "properties": {
+            "data": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["string"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["data", "kind"],
+          "properties": {
+            "data": {
+              "type": "boolean"
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["bool"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["data", "kind"],
+          "properties": {
+            "data": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["integer"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["data", "kind"],
+          "properties": {
+            "data": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["bytes"]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["data", "kind"],
+          "properties": {
+            "data": {
+              "$ref": "#/definitions/WorkflowReference"
+            },
+            "kind": {
+              "type": "string",
+              "enum": ["ref"]
+            }
+          }
+        }
+      ]
+    },
+    "WorkflowReference": {
+      "type": "string"
+    }
+  }
+}

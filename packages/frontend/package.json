@@ -13,14 +13,14 @@
     "pinia": "^3.0.3",
     "primevue": "4.1.0",
     "shared": "workspace:*",
-    "vue": "3.5.21"
+    "vue": "3.5.22"
   },
   "devDependencies": {
-    "@caido/sdk-backend": "0.51.1",
-    "@caido/sdk-frontend": "0.51.1",
-    "@codemirror/view": "6.38.2",
+    "@caido/sdk-backend": "0.52.0",
+    "@caido/sdk-frontend": "0.52.0",
+    "@codemirror/view": "6.38.3",
     "backend": "workspace:*",
     "shared": "workspace:*",
-    "vue-tsc": "3.0.7"
+    "vue-tsc": "3.0.8"
   }
 }
