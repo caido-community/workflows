@@ -1,0 +1,121 @@
+{
+  "description": "This workflow identifies HTTP requests where the URL includes a query(?), indicating the presence of query parameters. It helps to flag any requests that carry parameters in their URLs for further inspection or filtering.\n\nIf you want to change the set color i used this to set the color of highlighting : https://colorkit.co/color/cc447c/\n\n",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "true",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 3
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 3
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "on_intercept_request",
+        "definition_id": "caido/on-intercept-request",
+        "display": {
+          "x": -40,
+          "y": -90
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "On intercept request",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "passive_end",
+        "definition_id": "caido/passive-end",
+        "display": {
+          "x": 30,
+          "y": 340
+        },
+        "id": 1,
+        "inputs": [],
+        "name": "Passive End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "matches_httpql",
+        "definition_id": "caido/httpql-matches",
+        "display": {
+          "x": 70,
+          "y": 80
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_request.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "query",
+            "value": {
+              "data": "req.raw.regex:\"\\\\?.+=.*\"\n",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Matches HTTPQL",
+        "version": "0.2.0"
+      },
+      {
+        "alias": "set_color",
+        "definition_id": "caido/color-set",
+        "display": {
+          "x": 60,
+          "y": 200
+        },
+        "id": 3,
+        "inputs": [
+          {
+            "alias": "request",
+            "value": {
+              "data": "$on_intercept_request.request",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "color",
+            "value": {
+              "data": "#079ec4",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Set Color",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "54520d7a-e6db-4abf-a21b-574d12c2ee01",
+  "kind": "passive",
+  "name": "Queryfinder"
+}
