@@ -15,9 +15,15 @@ jobs:
       contents: write
 
     steps:
+      - name: Verify main branch
+        run: |
+          if [[ "${{ github.ref_name }}" != "main" ]]; then
+            echo "Release can only be done on the main branch."
+            exit 1
+          fi
+
       - name: Checkout project
         uses: actions/checkout@v4
-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -52,9 +58,10 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create release
-        uses: ncipollo/release-action@v1
+        uses: caido/action-release@v1
         with:
           tag: ${{ steps.meta.outputs.version }}
           commit: ${{ github.sha }}
           body: 'Release ${{ steps.meta.outputs.version }}'
           artifacts: 'dist/plugin_package.zip,dist/plugin_package.zip.sig'
+          immutableCreate: true
