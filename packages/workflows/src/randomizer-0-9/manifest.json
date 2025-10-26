@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson 0xmoose"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/randomizer-0-9/README.md",
+  "description": "Randomizes input strings by replacing characters with digits from 0 to 9.",
+  "id": "randomizer-0-9",
+  "name": "Randomizer 0-9",
+  "version": "0.1.0"
+}

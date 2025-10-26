@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Ads Dawson 0xmoose"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/randomizer-lower-a-z/README.md",
+  "description": "Randomizes input strings by replacing characters with digits from a to z range (lowercase).",
+  "id": "randomizer-lower-a-z",
+  "name": "Randomizer a-z",
+  "version": "0.1.0"
+}
