@@ -1,0 +1,92 @@
+{
+  "description": "Randomizes a single character selection between A through Z (uppercase)",
+  "edition": 2,
+  "graph": {
+    "edges": [
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 0
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 2
+        }
+      },
+      {
+        "source": {
+          "exec_alias": "exec",
+          "node_id": 2
+        },
+        "target": {
+          "exec_alias": "exec",
+          "node_id": 1
+        }
+      }
+    ],
+    "nodes": [
+      {
+        "alias": "convert_start",
+        "definition_id": "caido/convert-start",
+        "display": {
+          "x": 170,
+          "y": -100
+        },
+        "id": 0,
+        "inputs": [],
+        "name": "Convert Start",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "convert_end",
+        "definition_id": "caido/convert-end",
+        "display": {
+          "x": 170,
+          "y": 140
+        },
+        "id": 1,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$javascript.data",
+              "kind": "ref"
+            }
+          }
+        ],
+        "name": "Convert End",
+        "version": "0.1.0"
+      },
+      {
+        "alias": "javascript",
+        "definition_id": "caido/code-js",
+        "display": {
+          "x": 170,
+          "y": 20
+        },
+        "id": 2,
+        "inputs": [
+          {
+            "alias": "data",
+            "value": {
+              "data": "$convert_start.data",
+              "kind": "ref"
+            }
+          },
+          {
+            "alias": "code",
+            "value": {
+              "data": "function randomizeUpperLetter() {\n  // Force fresh random with timestamp entropy\n  const randomValue = (Math.random() + Date.now() / 1000000000) % 1;\n  return String.fromCharCode(65 + Math.floor(randomValue * 26));\n}\n\nfunction u(n, r) {\n  const t = r.asString(n);\n  let result = \"\";\n  \n  for (const char of t) {\n    if (/[A-Z]/.test(char)) {\n      result += randomizeUpperLetter(); // Fresh call each time\n    } else {\n      result += char;\n    }\n  }\n  \n  return result;\n}\n\nexport {\n  u as run\n};",
+              "kind": "string"
+            }
+          }
+        ],
+        "name": "Javascript",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "id": "de2b9d3e-2b9d-4726-b2be-6c4f9eb41dbf",
+  "kind": "convert",
+  "name": "Randomizer A-Z"
+}
