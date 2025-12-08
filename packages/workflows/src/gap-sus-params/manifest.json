@@ -1,0 +1,10 @@
+{
+  "author": {
+    "name": "Xnl-h4ck3r"
+  },
+  "url": "https://github.com/caido-community/workflows/packages/workflows/gap-sus-params/README.md",
+  "description": "Flag requests that have \"sus\" parameters (Based on GAP list by @jhaddix, @G0LDEN_infosec, and @ryancbarnett)",
+  "id": "gap-sus-params",
+  "name": "GAP \"Sus\" Params 🤘",
+  "version": "0.0.1"
+}
