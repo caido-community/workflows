@@ -32,6 +32,9 @@ jobs:
           version: ${{ env.PNPM_VERSION }}
           run_install: true
 
+      - name: Run knip
+        run: pnpm knip
+
       - name: Build workflows
         run: pnpm build:workflows
 

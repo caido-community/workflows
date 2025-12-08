@@ -4,12 +4,6 @@ import { computed, ref } from "vue";
 
 import { useSDK } from "@/plugins/sdk";
 
-export interface WorkflowState {
-  workflows: Workflow[];
-  installedWorkflowsNames: string[];
-  searchQuery: string;
-}
-
 interface WorkflowResult {
   error: boolean;
   kind: "success" | "error";

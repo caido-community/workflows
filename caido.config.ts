@@ -2,6 +2,7 @@ import { defineConfig } from "@caido-community/dev";
 import tailwindCaido from "@caido/tailwindcss";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "tailwindcss";
+// @ts-expect-error
 import tailwindPrimeui from "tailwindcss-primeui";
 import path from "path";
 import prefixwrap from "postcss-prefixwrap";
@@ -11,7 +12,7 @@ export default defineConfig({
   id,
   name: "Workflows Store",
   description: "Collection of useful Caido workflows",
-  version: "1.1.1",
+  version: "1.1.2",
   author: {
     name: "Caido Labs Inc.",
     email: "dev@caido.io",
@@ -32,11 +33,23 @@ export default defineConfig({
         id: "backend",
       },
       vite: {
-        // @ts-expect-error
         plugins: [vue()],
         build: {
           rollupOptions: {
-            external: ["@caido/frontend-sdk"],
+            external: [
+              "@caido/frontend-sdk",
+              "@codemirror/autocomplete",
+              "@codemirror/commands",
+              "@codemirror/language",
+              "@codemirror/lint",
+              "@codemirror/search",
+              "@codemirror/state",
+              "@codemirror/view",
+              "@lezer/common",
+              "@lezer/highlight",
+              "@lezer/lr",
+              "vue",
+            ],
           },
         },
         resolve: {
