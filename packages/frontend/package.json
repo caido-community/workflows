@@ -6,21 +6,21 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@caido/primevue": "0.3.0",
+    "@caido/primevue": "0.3.3",
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
     "@fortawesome/free-solid-svg-icons": "^7.0.1",
     "@fortawesome/vue-fontawesome": "^3.1.2",
-    "pinia": "^3.0.3",
+    "pinia": "^3.0.4",
     "primevue": "4.1.0",
     "shared": "workspace:*",
-    "vue": "3.5.22"
+    "vue": "3.5.25"
   },
   "devDependencies": {
-    "@caido/sdk-backend": "0.52.0",
-    "@caido/sdk-frontend": "0.52.0",
-    "@codemirror/view": "6.38.3",
+    "@caido/sdk-backend": "0.53.1",
+    "@caido/sdk-frontend": "0.53.1",
+    "@codemirror/view": "6.39.0",
     "backend": "workspace:*",
     "shared": "workspace:*",
-    "vue-tsc": "3.0.8"
+    "vue-tsc": "3.1.7"
   }
 }
