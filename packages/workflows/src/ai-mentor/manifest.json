@@ -1,10 +1,10 @@
 {
-    "author": {
-      "name": "Vasily Kaiser"
-    },
-    "url": "https://github.com/caido-community/workflows/packages/workflows/ai-mentor/README.md",
-    "description": "This workflow is leveraging AI to analyze HTTP requests for potential vulnerabilities.",
-    "id": "ai-mentor",
-    "name": "AI Mentor (GroqCloud)",
-    "version": "0.0.1"
-  }
+  "author": {
+    "name": "Vasily Kaiser"
+  },
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/ai-mentor/README.md",
+  "description": "This workflow is leveraging AI to analyze HTTP requests for potential vulnerabilities.",
+  "id": "ai-mentor",
+  "name": "AI Mentor (GroqCloud)",
+  "version": "0.0.1"
+}

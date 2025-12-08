@@ -2,7 +2,7 @@
   "author": {
     "name": "Rhynorater"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/pwnfox-support/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/pwnfox-support/README.md",
   "description": "Support for PwnFox",
   "id": "pwnfox-support",
   "name": "PwnFox Support",

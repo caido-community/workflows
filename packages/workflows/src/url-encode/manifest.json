@@ -3,7 +3,7 @@
     "name": "Caido Labs Inc.",
     "email": "dev@caido.io"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/url-encode/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/url-encode/README.md",
   "description": "Encode a URL",
   "id": "url-encode",
   "name": "URL Encode",

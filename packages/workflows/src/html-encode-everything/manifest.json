@@ -2,7 +2,7 @@
   "author": {
     "name": "RyotaK"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/html-encode-everything/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/html-encode-everything/README.md",
   "description": "Encode all HTML entities in a string",
   "id": "html-encode-everything",
   "name": "HTML Encode Everything",
