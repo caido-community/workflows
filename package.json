@@ -6,7 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "pnpm -r build &&caido-dev build",
+    "build": "pnpm -r build && caido-dev build",
+    "build:workflows": "pnpm -C packages/workflows build",
     "watch": "caido-dev watch",
     "test": "vitest run",
     "lint": "eslint --fix packages/{backend,frontend}/src",
