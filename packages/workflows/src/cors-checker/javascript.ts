@@ -15,7 +15,8 @@ export async function run({ request, response }, sdk) {
         for (const [k, v] of Object.entries(payloads1)) {
             let result = await test_origin(sdk, request, v);
             if(result){
-                await createCorsFinding(sdk, result, v, `CORS Misconfig ${request.getHost()}${request.getPath()} - ${k}: ${v}`);
+                foundWorking = true;
+                await createCorsFinding(sdk, result.request, v, result.allowsCreds, `CORS Misconfig ${request.getHost()}${request.getPath()} - ${k}: ${v}`);
             }
         }
         if(foundWorking){
@@ -52,7 +53,7 @@ export async function run({ request, response }, sdk) {
         for (const [k, v] of Object.entries(payloads2)) {
             let result = await test_origin(sdk, request, v);
             if(result){
-                await createCorsFinding(sdk, result, v, `CORS Misconfig ${request.getHost()}${request.getPath()} - ${k}: ${v}`);
+                await createCorsFinding(sdk, result.request, v, result.allowsCreds, `CORS Misconfig ${request.getHost()}${request.getPath()} - ${k}: ${v}`);
             }
         }
 
@@ -70,34 +71,47 @@ export async function run({ request, response }, sdk) {
         for(const unsafeOrigin of unsafeOriginDomains){
             let result = await test_origin(sdk, request, unsafeOrigin);
             if(result){
-                await createCorsFinding(sdk, result, unsafeOrigin, `CORS Misconfig ${request.getHost()}${request.getPath()} - unsafe origin: ${unsafeOrigin}`);
+                await createCorsFinding(sdk, result.request, unsafeOrigin, result.allowsCreds, `CORS Misconfig ${request.getHost()}${request.getPath()} - unsafe origin: ${unsafeOrigin}`);
             }
         }
     }
 }
-  
+
 async function test_origin(sdk, req, new_origin){
     const newReq = toRequestSpec(req);
     newReq.setHeader('Origin', new_origin);
     let requestResponse = await sdk.requests.send(newReq)
     let resp = requestResponse.response;
     let respACAO = resp.getHeader('Access-Control-Allow-Origin')[0];
+    // technically the only valid value for the ACAC header is "true" otherwise the header should be omitted
+    let respACAC = resp.getHeader('Access-Control-Allow-Credentials')[0];
     sdk.console.log(`CORS test - Origin: ${new_origin} - Response ACAO: ${respACAO}`);
     if(respACAO){
+        if(respACAC == "true" && respACAO == '*'){
+            // if ACAC is true and ACAO is * then no CORS requests will work so these cases should not be considered interesting
+            // https://fetch.spec.whatwg.org/#cors-protocol-and-credentials
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=1210985
+            // https://issues.chromium.org/issues/40255034
+            return
+        }
         if(respACAO == 'null' || respACAO == '*' || respACAO.indexOf(new_origin)!=-1) {
-            return requestResponse.request;
+            return {
+                request: requestResponse.request,
+                allowsCreds: respACAC == "true"
+            };
         }
     }
 }
 
-async function createCorsFinding(sdk, request, payload, description){
+async function createCorsFinding(sdk, request, payload, allowsCreds, description){
     const resourceLinks = [
         'https://portswigger.net/research/exploiting-cors-misconfigurations-for-bitcoins-and-bounties',
         'https://corben.io/blog/18-6-16-advanced-cors-techniques'
     ].join('\n');
 
+    const credsString = allowsCreds ? "(with creds) " : "";
     await sdk.findings.create({
-        title: "CORS Misconfig - " + payload,
+        title: `CORS Misconfig ${credsString}- ${payload}`,
         description: description+'\n\n'+resourceLinks,
         request: request,
         reporter: "CORSMisconfig",
