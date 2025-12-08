@@ -3,7 +3,7 @@
     "name": "Caido Labs Inc.",
     "email": "dev@caido.io"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/url-decode/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/url-decode/README.md",
   "description": "Decode a URL",
   "id": "url-decode",
   "name": "URL Decode",

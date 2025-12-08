@@ -3,7 +3,7 @@
     "name": "0daystolive",
     "email": "dont@me.bro"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/redirect-to-param/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/redirect-to-param/README.md",
   "description": "Detects HTTP Responses Redirecting to GET Parameter Value",
   "id": "redirect-to-param",
   "name": "Redirect To Parameter Value",

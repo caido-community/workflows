@@ -2,7 +2,7 @@
   "author": {
     "name": "hahwul"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/add-slashes/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/add-slashes/README.md",
   "description": "Add backslashes before special characters in strings",
   "id": "add-slashes",
   "name": "Add Slashes",

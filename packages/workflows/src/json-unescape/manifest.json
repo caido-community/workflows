@@ -2,7 +2,7 @@
   "author": {
     "name": "RyotaK"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/json-unescape/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/json-unescape/README.md",
   "description": "Unescape all JSON special characters in a string",
   "id": "json-unescape",
   "name": "JSON Unescape",

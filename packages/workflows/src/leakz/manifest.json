@@ -3,7 +3,7 @@
     "name": "Dwi Siswanto",
     "email": "me@dw1.io"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/leakz/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/leakz/README.md",
   "description": "Find potential leaked secrets, PII, and/or sensitive fields.",
   "id": "leakz",
   "name": "Leakz",

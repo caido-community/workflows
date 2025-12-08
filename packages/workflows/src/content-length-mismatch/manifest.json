@@ -2,7 +2,7 @@
   "author": {
     "name": "syrull"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/content-length-mismatch/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/content-length-mismatch/README.md",
   "description": "Matches requests where the content-length header value does not match the body length",
   "id": "content-length-mismatch",
   "name": "Content-Length Mismatch",

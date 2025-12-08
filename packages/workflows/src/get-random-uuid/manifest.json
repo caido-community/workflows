@@ -2,7 +2,7 @@
   "author": {
     "name": "hahwul"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/get-random-uuid/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/get-random-uuid/README.md",
   "description": "Workflow for generating a random UUID.",
   "id": "get-random-uuid",
   "name": "Get Random UUID",

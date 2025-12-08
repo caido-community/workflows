@@ -2,7 +2,7 @@
   "author": {
     "name": "RyotaK"
   },
-  "url": "https://github.com/caido-community/workflows/packages/workflows/json-escape/README.md",
+  "url": "https://github.com/caido-community/workflows/blob/main/packages/workflows/src/json-escape/README.md",
   "description": "Escape all JSON special characters in a string",
   "id": "json-escape",
   "name": "JSON Escape",
